@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title> LOGIN PAGE </title>
+  </head>
+
+  <body>
+    <h1>
+      Welcome from Team Sleepy Programmers: Andy Lin, Shadman Rakib, Raymond Yeung.
+    </h1>
+
+
+    <h3>
+      Enter your username below to proceed.
+    </h3>
+    <form action="/auth" method="POST">
+      Username:
+      <input type="text" name="username">
+      <br>
+      Password:
+      <input type="password" name="password">
+      <br>
+      <input type="submit" name="sub1">
+      <br>
+
+      {% if error == "username"%}
+      Wrong username!
+      {% elif error == "password"%}
+      Wrong password!
+      {% endif %}
+    </form>
+    <br>
+  </body>
+
+</html>

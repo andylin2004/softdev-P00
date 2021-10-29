@@ -1,0 +1,15 @@
+Team Name: Sleepy Programmers: Andy Lin, Shadman Rakib, Raymond Yeung
+SoftDev
+K15 -- notes for sessions
+2021-10-18
+
+Notable Notes:
+
+-GET requests occur when user attempts to refresh a page. 
+-POST requests occur when a user loads in a page from the login screen (so basically submitting data to another page).
+-urandom(int x) makes a random string of x length.
+-session is a dictionary that is built in python. you can add a dictionary value to add a new session, then remove it when the user logs out.
+-in keyword is used for checking to see if a dictionary key is in a dictionary.
+-redirect is useful when logging out to go back to the login page
+-refreshing keeps the cookies and you can check for that.
+-app.secret_key signs session cookies

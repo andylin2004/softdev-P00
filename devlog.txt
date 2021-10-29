@@ -11,3 +11,4 @@ responsible for returning the login error that was encountered. In addition, log
 will now be able to go to a list of blogs on top of other sites, and search will
 be able to return a list of blogs as well as blog posts. I also changed around the
 scope of some roles as well as elaborate on the scope of work that we will be doing.
+I also made the readme with important headers and roles for now.

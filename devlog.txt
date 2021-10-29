@@ -2,3 +2,12 @@ raymondY -- 2021-10-27 10:47pm
 -created devlog and added to repo
 -finalized design doc
 -added design.pdf to repo
+
+andyL -- 2021-10-28 21:56
+
+I updated the design doc with a better visualization of the program components,
+as well as splitting off login and logout in the site map. Login is also 
+responsible for returning the login error that was encountered. In addition, login
+will now be able to go to a list of blogs on top of other sites, and search will
+be able to return a list of blogs as well as blog posts. I also changed around the
+scope of some roles as well as elaborate on the scope of work that we will be doing.

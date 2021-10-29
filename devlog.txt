@@ -3,6 +3,9 @@ raymondY -- 2021-10-27 10:47pm
 -finalized design doc
 -added design.pdf to repo
 
+shadmanR -- 2021-10-27 10:47pm
+-created routes specification table with required parameters and responses based on request methods.
+
 andyL -- 2021-10-28 21:56
 
 I updated the design doc with a better visualization of the program components,
@@ -12,3 +15,7 @@ will now be able to go to a list of blogs on top of other sites, and search will
 be able to return a list of blogs as well as blog posts. I also changed around the
 scope of some roles as well as elaborate on the scope of work that we will be doing.
 I also made the readme with important headers and roles for now.
+
+andyL -- 2021-10-29 09:05
+
+I added the designwiki0 and designwiki1 files (previous permutations)

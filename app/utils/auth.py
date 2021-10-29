@@ -17,7 +17,7 @@ class AuthService:
         pass
 
     def register(self, username, password):
-        pass
+        c.execute("INSERT INTO users VALUES(? , ?)", username, password)
 
     def currentUser(self):
         pass

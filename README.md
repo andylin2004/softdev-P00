@@ -1,4 +1,4 @@
-# Blog by Teammates
+# Blog by Team: Mates
 
 ## Roles
 

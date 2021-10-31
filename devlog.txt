@@ -19,3 +19,8 @@ I also made the readme with important headers and roles for now.
 andyL -- 2021-10-29 09:05
 
 I added the designwiki0 and designwiki1 files (previous permutations)
+
+andyL -- 2021-10-31 16:52
+
+I updated README with the install instructions and made a superior name for the blog. Also
+made a requirement.txt and ensured that app.py was functional (college apps are a pain).

@@ -19,7 +19,7 @@ def disp_loginpage():
     return render_template( 'login.html' ) # Render the login template
 
 
-@app.route("/auth") # , methods=['GET', 'POST'])
+@app.route("/auth", methods=['GET', 'POST'])
 def authenticate():
     # The requests property contains the values property. The value property contains
     # data from both requests.args and requests.form.

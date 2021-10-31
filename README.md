@@ -11,6 +11,7 @@
 ### Install
 
 `$ git clone https://github.com/andylin2004/softdev-P00.git`
+`$ pip install -r requirements.txt` IT IS IMPORTANT TO USE PIP3; MACOS DEFAULTS PIP TO PYTHON 2'S IMPLEMETATION
 
 ### Run the application
 

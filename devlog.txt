@@ -24,3 +24,7 @@ andyL -- 2021-10-31 16:52
 
 I updated README with the install instructions and made a superior name for the blog. Also
 made a requirement.txt and ensured that app.py was functional (college apps are a pain).
+
+andyL -- 2021-11-01 09:01
+
+I fixed the dependencies in requirements.txt (as the dependencies were excessive). I also added a few more funcs dedicated for fetching blog post info.

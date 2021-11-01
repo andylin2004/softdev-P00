@@ -11,3 +11,5 @@ def pullUserData(userID):
     c.execute("SELECT * FROM blogs WHERE author IS ':userID'", {'userId': userID})
     data = c.fetchall()
 
+def createBlogPost(title, content, userID):
+    c.execute('INSERT INTO blogs VALUES (SELECT COUNT(*) FROM blog, ":userID", SELECT datetime(\'now\'), ":title", ":content")', {'userID': userID, 'title': title, 'content': content})

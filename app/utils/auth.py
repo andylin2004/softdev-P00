@@ -1,11 +1,12 @@
 from flask import session           #facilitate user sessions
+from utils.database import initializeUsersTable();
 
 class AuthService:
 
     activeUsers = {}
 
     def __init__(self):
-        c.execute("CREATE TABLE IF NOT EXISTS users(ID AUTOINCREMENT PRIMARY KEY, username TEXT,  displayUsername TEXT, password TEXT, UNIQUE (username, ID))")
+        initializeUsersTable();
 
     def login(self, username, password):
         pass

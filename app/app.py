@@ -10,6 +10,8 @@ from flask import session           #facilitate user sessions
 from flask import redirect
 from os import urandom
 
+from utils.database import initializeDatabase;
+
 app = Flask(__name__)    #create Flask object
 
 @app.route("/")
@@ -23,7 +25,7 @@ def disp_loginpage():
 def authenticate():
     # The requests property contains the values property. The value property contains
     # data from both requests.args and requests.form.
-    
+
     if request.method == "GET": #for when you refresh the website
         return disp_loginpage()
     else: #when you log in from /
@@ -47,6 +49,7 @@ def logout():
     return redirect("/")
 
 if __name__ == "__main__": #false if this file imported as module
+    initializeDatabase()
     app.secret_key = urandom(32) # randomized secret key
     #enable debugging, auto-restarting of server when this file is modified
     app.debug = True

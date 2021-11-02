@@ -10,7 +10,7 @@ from flask import session           #facilitate user sessions
 from flask import redirect
 from os import urandom
 
-from utils.database import initializeDatabase;
+from utils.db import initializeDatabase;
 
 app = Flask(__name__)    #create Flask object
 

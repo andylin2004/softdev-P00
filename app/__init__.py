@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template
 app = Flask(__name__)
 
-from utils.database import initializeDatabase;
+from utils.db import initializeDatabase;
 
 @app.route("/")
 def index():

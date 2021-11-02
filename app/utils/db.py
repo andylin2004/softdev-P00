@@ -7,15 +7,15 @@ c = db.cursor()               #facilitate db ops -- you will use cursor to trigg
 
 def initializeUsersTable():
     c.execute('''CREATE TABLE IF NOT EXISTS users(
-    ID PRIMARY KEY,
+    ID INTEGER PRIMARY KEY,
     username TEXT,
-    displayUsername TEXT,
+    displayName TEXT,
     password TEXT,
     UNIQUE (username, ID))''')
 
 def initializePostsTable():
     c.execute('''CREATE TABLE IF NOT EXISTS users(
-    ID PRIMARY KEY,
+    ID INTEGER PRIMARY KEY,
     author TEXT,
     date TEXT,
     title TEXT,
@@ -25,3 +25,10 @@ def initializePostsTable():
 def initializeDatabase():
     initializeUsersTable()
     initializePostsTable()
+
+# AUTH
+def addUser(username, displayName, password):
+    c.execute("INSERT INTO users (username, displayName, password) VALUES(? , ?, ?)", username, displayName, password)
+
+def getUserByUsername(username):
+    c.execute("SELECT From users WHERE username = ?", username)

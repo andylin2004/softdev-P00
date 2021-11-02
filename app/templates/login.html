@@ -14,7 +14,7 @@
     <h3>
       Enter your username below to proceed.
     </h3>
-    <form action="/auth" method="POST">
+    <form action="/login" method="POST">
       Username:
       <input type="text" name="username">
       <br>
@@ -23,11 +23,7 @@
       <br>
       <input type="submit" name="sub1">
       <br>
-      {% if error == "username"%}
-      Wrong username!
-      {% elif error == "password"%}
-      Wrong password!
-      {% endif %}
+      {{error}}
       <a href="/register">Register</a>
       <a href="/">Home</a>
     </form>

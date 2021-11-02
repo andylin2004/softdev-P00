@@ -2,7 +2,7 @@ import sqlite3   #enable control of an sqlite database
 
 DB_FILE="database.db"
 
-db = sqlite3.connect(DB_FILE) #open if file exists, otherwise create
+db = sqlite3.connect(DB_FILE, check_same_thread=False) #open if file exists, otherwise create
 c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
 
 def initializeUsersTable():
@@ -28,7 +28,9 @@ def initializeDatabase():
 
 # AUTH
 def addUser(username, displayName, password):
-    c.execute("INSERT INTO users (username, displayName, password) VALUES(? , ?, ?)", username, displayName, password)
+    c.execute("INSERT INTO users (username, displayName, password) VALUES(? , ?, ?)", (username, displayName, password))
 
 def getUserByUsername(username):
-    c.execute("SELECT From users WHERE username = ?", username)
+    c.execute("SELECT * FROM users WHERE username = ?", (username,))
+    data = c.fetchone()
+    return data

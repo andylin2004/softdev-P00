@@ -2,7 +2,7 @@ from flask import Flask
 from flask import render_template
 app = Flask(__name__)
 
-from utils.db import initializeDatabase;
+# from utils.db import initializeDatabase;
 
 @app.route("/")
 def index():
@@ -29,6 +29,6 @@ def authenticate():
     return "filler"
 
 if __name__ == "__main__":  # true if this file NOT imported
-    initializeDatabase()
+    # initializeDatabase()
     app.debug = True        # enable auto-reload upon code change
     app.run()

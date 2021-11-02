@@ -11,17 +11,23 @@ from flask import redirect
 from os import urandom
 
 from utils.db import initializeDatabase;
+from utils.auth import AuthService;
 
 app = Flask(__name__)    #create Flask object
 
+auth = AuthService()
+
 @app.route("/")
 def disp_loginpage():
-    if "username" in session:
-        return render_template('response.html', username=session["username"])
+    currentUser = auth.currentUser()
+    print("currentUser:", currentUser)
+
+    if currentUser:
+        return render_template('homePage.html', username=currentUser[2])
     return render_template( 'login.html' ) # Render the login template
 
 
-@app.route("/auth", methods=['GET', 'POST'])
+@app.route("/login", methods=['GET', 'POST'])
 def authenticate():
     # The requests property contains the values property. The value property contains
     # data from both requests.args and requests.form.
@@ -32,15 +38,10 @@ def authenticate():
         username = request.values['username']
         password = request.values['password']
 
-        if username == "dn":
-            if password == "1738":
-                session["username"] = username
-                #response to a person who has the right credentials and logs in
-                return render_template('response.html', username=username)
-            else:
-                return render_template('login.html', error='password') #wrong pw
+        if auth.login(username, password):
+            return render_template('homePage.html', username=username)
         else:
-            return render_template('login.html', error='username') #wrong user
+            return render_template('login.html', error='Incorrect username or password')
 
 @app.route("/logout")
 def logout():

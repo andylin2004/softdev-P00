@@ -60,6 +60,10 @@ def editBlog():
 def dashboard():
     return render_template('dashboard.html')
 
+@app.route("/createPosts")
+def createPost():
+    return render_template('createPosts.html')
+
 @app.route("/logout")
 def logout():
     if session.get("username"):

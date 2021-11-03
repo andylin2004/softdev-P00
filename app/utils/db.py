@@ -29,6 +29,7 @@ def initializeDatabase():
 # AUTH
 def addUser(username, displayName, password):
     c.execute("INSERT INTO users (username, displayName, password) VALUES(? , ?, ?)", (username, displayName, password))
+    db.commit()
 
 def getUserByUsername(username):
     c.execute("SELECT * FROM users WHERE username = ?", (username,))

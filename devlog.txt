@@ -42,3 +42,9 @@ register page that referred to login page. Register will redirect to a url that 
 then redirect to login page. Removed login button from home page (this is to be line with Mykolyk's
 requests). Combined db.py and old backend.py scripts together. Made a loadHomePage func that loads all
 blogs (like a feed).
+
+andyL -- 2021-11-02 09:15
+
+I worked on fixing some URLs up so that they would follow the design doc. Also fixed the issue where the
+database values did not save between different database instances. Also merged app.py into init.py and
+added another function to update a blog post.

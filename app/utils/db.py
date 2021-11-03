@@ -47,3 +47,6 @@ def pullUserData(userID):
 
 def createBlogPost(title, content, userID):
     c.execute('INSERT INTO blogs VALUES (SELECT COUNT(*) FROM blog, ":userID", SELECT datetime(\'now\'), ":title", ":content")', {'userID': userID, 'title': title, 'content': content})
+
+def loadHomePage():
+    c.execute("SELECT * FROM blogs ORDERED BY date DESC")

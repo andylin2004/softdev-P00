@@ -48,3 +48,10 @@ andyL -- 2021-11-02 09:15
 I worked on fixing some URLs up so that they would follow the design doc. Also fixed the issue where the
 database values did not save between different database instances. Also merged app.py into init.py and
 added another function to update a blog post.
+
+raymondY -- 2021-11-03 5:52 pm
+
+-fixed some bugs
+-new template (createPosts)
+-basic css (centering only rn)
+-links on home page (for testing, not sure if the current layout is what we want.)

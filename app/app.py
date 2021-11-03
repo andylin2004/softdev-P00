@@ -9,6 +9,7 @@ from flask import request           #facilitate form submission
 from flask import session           #facilitate user sessions
 from flask import redirect
 from os import urandom
+from utils.db import addUser
 
 from utils.db import initializeDatabase;
 from utils.auth import AuthService;
@@ -46,6 +47,14 @@ def authenticate():
 @app.route("/register")
 def goToRegisterPage():
     return render_template('register.html')
+
+@app.route("/createAccount", methods=['POST'])
+def createAccount():
+    username = request.values['username']
+    displayName = request.values['displayName']
+    password = request.values['password']
+    addUser(username, displayName, password)
+    return redirect("/login")
 
 @app.route("/logout")
 def logout():

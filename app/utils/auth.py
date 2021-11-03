@@ -14,7 +14,7 @@ class AuthService:
     def currentUser(self):
         if "sessionID" in session:
             sessionID = session.get("sessionID")
-            username = se;f.activeUsers[sessionID]
+            username = self.activeUsers[sessionID]
 
             userData = getUserByUsername(username)
             return userData

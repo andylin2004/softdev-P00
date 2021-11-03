@@ -51,3 +51,6 @@ def createBlogPost(title, content, userID):
 
 def loadHomePage():
     c.execute("SELECT * FROM blogs ORDERED BY date DESC")
+
+def editBlogPost(id, title, content, userID):
+    c.execute("UPDATE blogs SET title = ':title', SET content = ':content' WHERE id = :id", {'title': title, 'content': content, 'id': id})

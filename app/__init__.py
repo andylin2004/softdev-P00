@@ -41,25 +41,24 @@ def authenticate():
         else:
             return render_template('login.html', error='Incorrect username or password')
 
-@app.route("/register")
+@app.route("/signup", methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+    if request.method == "GET":
+        return render_template('register.html')
+    elif request.method == "POST":
+        username = request.values['username']
+        displayName = request.values['displayName']
+        password = request.values['password']
+        auth.register(username, displayName, password)
+        return redirect("/login")
 
 @app.route("/editBlog")
 def editBlog():
-    return render_template('editBlog.html')
+    return render_template('editBlog.html', edit = "filler", postTitle ="filler", postContent ="filler content")
 
 @app.route("/dashboard")
 def dashboard():
     return render_template('dashboard.html')
-
-@app.route("/createAccount", methods=['POST'])
-def createAccount():
-    username = request.values['username']
-    displayName = request.values['displayName']
-    password = request.values['password']
-    auth.register(username, displayName, password)
-    return redirect("/login")
 
 @app.route("/logout")
 def logout():

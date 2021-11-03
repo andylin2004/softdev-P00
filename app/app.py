@@ -43,6 +43,10 @@ def authenticate():
         else:
             return render_template('login.html', error='Incorrect username or password')
 
+@app.route("/register")
+def goToRegisterPage():
+    return render_template('register.html')
+
 @app.route("/logout")
 def logout():
     if session.get("username"):

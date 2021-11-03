@@ -7,29 +7,23 @@
 
   <body>
     <h1>
-      Welcome to login page!
+      Welcome to the signup page!
     </h1>
 
 
     <h3>
-      Enter your username below to proceed.
+      Create your account below!
     </h3>
-    <form action="/auth" method="POST">
+    <form action="/createAccount" method="POST">
       Username:
       <input type="text" name="username">
       <br>
       Password:
       <input type="password" name="password">
       <br>
-      <input type="submit" name="sfs">
+      <input type="submit" name="sub1">
       <br>
-
-      {% if error == "username"%}
-      Wrong username!
-      {% elif error == "password"%}
-      Wrong password!
-      {% endif %}
-
+      <a href="/login">Login</a>
       <a href="/">Home</a>
     </form>
     <br>

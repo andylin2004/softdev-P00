@@ -40,4 +40,5 @@ I worked on ensuring that the register website worked (with form for display nam
 password), even if the current setup is super janky right now. Also removed references in 
 register page that referred to login page. Register will redirect to a url that manages signup,
 then redirect to login page. Removed login button from home page (this is to be line with Mykolyk's
-requests)
+requests). Combined db.py and old backend.py scripts together. Made a loadHomePage func that loads all
+blogs (like a feed).

@@ -18,7 +18,7 @@ def register():
 
 @app.route("/editBlog")
 def editBlog():
-    return render_template('editBlog.html')
+    return render_template('editBlog.html', edit = "filler", postTitle ="filler", postContent ="filler content")
 
 @app.route("/dashboard")
 def dashboard():

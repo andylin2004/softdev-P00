@@ -34,3 +34,16 @@ def getUserByUsername(username):
     c.execute("SELECT * FROM users WHERE username = ?", (username,))
     data = c.fetchone()
     return data
+
+# BLOG MANAGEMENT
+
+def search(searchQuery):
+    c.execute("SELECT * FROM blogs WHERE blogTitle LIKE '%:title%'", {'title': searchQuery})
+    data = c.fetchall()
+
+def pullUserData(userID):
+    c.execute("SELECT * FROM blogs WHERE author IS ':userID'", {'userId': userID})
+    data = c.fetchall()
+
+def createBlogPost(title, content, userID):
+    c.execute('INSERT INTO blogs VALUES (SELECT COUNT(*) FROM blog, ":userID", SELECT datetime(\'now\'), ":title", ":content")', {'userID': userID, 'title': title, 'content': content})

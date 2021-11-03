@@ -48,9 +48,11 @@ def pullUserData(userID):
 
 def createBlogPost(title, content, userID):
     c.execute('INSERT INTO blogs VALUES (SELECT COUNT(*) FROM blog, ":userID", SELECT datetime(\'now\'), ":title", ":content")', {'userID': userID, 'title': title, 'content': content})
+    db.commit()
 
 def loadHomePage():
     c.execute("SELECT * FROM blogs ORDERED BY date DESC")
 
 def editBlogPost(id, title, content, userID):
     c.execute("UPDATE blogs SET title = ':title', SET content = ':content' WHERE id = :id", {'title': title, 'content': content, 'id': id})
+    db.commit()

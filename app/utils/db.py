@@ -61,8 +61,7 @@ def createBlogPost(title, content, userID):
     db.commit()
 
 def loadHomePage():
-    # c.execute("SELECT * FROM blogs ORDERED BY date DESC")
-    c.execute("SELECT * FROM blogs")
+    c.execute("SELECT * FROM blogs ORDER BY date DESC")
     data = c.fetchall()
     return data
 

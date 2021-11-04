@@ -1,7 +1,7 @@
 import sqlite3   #enable control of an sqlite database
 from utils.response import Response
 
-DB_FILE="app/database.db"
+DB_FILE="database.db"
 
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #open if file exists, otherwise create
 c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
@@ -32,7 +32,7 @@ def addUser(username, displayName, password):
     try:
         c.execute("INSERT INTO users (username, displayName, password) VALUES(? , ?, ?)", (username, displayName, password))
         db.commit()
-    except Exception as err: 
+    except Exception as err:
         return Response(False, None, err)
 
 def getUserByUsername(username):
@@ -43,7 +43,7 @@ def getUserByUsername(username):
         res = {"id": data[0], "username": data[1], "displayName": data[2], "password": data[3],}
 
         return Response(True, res, "")
-    except Exception as err: 
+    except Exception as err:
         return Response(False, None, err)
 
 # BLOG MANAGEMENT
@@ -66,3 +66,14 @@ def loadHomePage():
 def editBlogPost(id, title, content, userID):
     c.execute("UPDATE blogs SET title = ':title', SET content = ':content' WHERE id = :id", {'title': title, 'content': content, 'id': id})
     db.commit()
+
+def getPostByID(id):
+    try:
+        c.execute("SELECT * FROM blogs WHERE id = ?", (id,))
+        data = c.fetchone()
+
+        res = {"id": data[0], "author": data[1], "date": data[2], "title": data[3], "content": data[4],}
+
+        return Response(True, res, "")
+    except Exception as err:
+        return Response(False, None, err)

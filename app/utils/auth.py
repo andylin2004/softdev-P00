@@ -47,6 +47,6 @@ class AuthService:
         return Response(True, True, "")
 
     def logout(self):
-        if session.get("username"):
-            session.pop("username")
+        if session.get("sessionID"):
+            session.pop("sessionID")
         return Response(True, True, "")

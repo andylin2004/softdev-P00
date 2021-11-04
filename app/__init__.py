@@ -82,7 +82,7 @@ def createPost():
 @app.route("/logout")
 def logout():
     auth.logout() #function to logout
-    return redirect("/login") #redirect to login page
+    return redirect("/") #redirect to login page
 
 if __name__ == "__main__": #false if this file imported as module
     initializeDatabase()

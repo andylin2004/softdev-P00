@@ -6,6 +6,7 @@ from flask import redirect
 from os import urandom
 from utils.db import createBlogPost
 from utils.db import loadHomePage
+from utils.db import pullUserData
 
 from utils.db import initializeDatabase
 from utils.auth import AuthService
@@ -56,13 +57,14 @@ def register():
 @app.route("/editBlog", methods = ['GET', 'POST'])
 def editBlog():
     if request.method == "GET":
-        return render_template('editBlog.html', edit = "filler", postTitle ="filler", postContent ="filler content")
+        return render_template('editBlog.html', edit = "fillers", postTitle ="filler", postContent ="filler content")
     elif request.method == "POST":
-        return "filler"
+        return "test"
 
-@app.route("/dashboard")
-def dashboard():
-    return render_template('dashboard .html')
+@app.route("/myBlog")
+def myBlog():
+    userID = dict(auth.currentUser().payload)["username"]
+    return render_template('myBlog.html', blogs=pullUserData(userID))
 
 @app.route("/createPosts", methods =['GET', 'POST'])
 def createPost():
@@ -78,7 +80,7 @@ def createPost():
 @app.route("/logout")
 def logout():
     auth.logout() #function to logout
-    return redirect("/") #redirect to home
+    return redirect("/login") #redirect to login page
 
 if __name__ == "__main__": #false if this file imported as module
     initializeDatabase()

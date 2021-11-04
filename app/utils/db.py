@@ -1,7 +1,7 @@
 import sqlite3   #enable control of an sqlite database
 from utils.response import Response
 
-DB_FILE="database.db"
+DB_FILE="app/database.db"
 
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #open if file exists, otherwise create
 c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
@@ -15,7 +15,7 @@ def initializeUsersTable():
     UNIQUE (username, ID))''')
 
 def initializePostsTable():
-    c.execute('''CREATE TABLE IF NOT EXISTS blog(
+    c.execute('''CREATE TABLE IF NOT EXISTS blogs(
     ID INTEGER PRIMARY KEY,
     author TEXT,
     date TEXT,

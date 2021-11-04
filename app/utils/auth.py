@@ -17,19 +17,21 @@ class AuthService:
             sessionID = session.get("sessionID")
             username = self.activeUsers[sessionID]
 
-            userData = getUserByUsername(username)
+            userDataResponse = getUserByUsername(username)
 
-            if (userData.success):
-                return Response(True, userData.payload, "")
+            if (userDataResponse.success):
+                userData = userDataResponse.payload
+                return Response(True, userData, "")
 
         return Response(False, None, "")
 
     def login(self, username, password):
-        userData = getUserByUsername(username)
+        userDataResponse = getUserByUsername(username)
 
-        if (userData.success):
-            if userData.payload and username == userData.payload["username"]:
-                if check_password_hash(userData.payload["password"], password):
+        if (userDataResponse.success):
+            userData = userDataResponse.payload
+            if userData and username == userData["username"]:
+                if check_password_hash(userData["password"], password):
                     sessionID = urandom(32)
                     session["sessionID"] = sessionID
                     self.activeUsers[sessionID] = username

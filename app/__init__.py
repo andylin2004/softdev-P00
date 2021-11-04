@@ -5,6 +5,7 @@ from flask import session           #facilitate user sessions
 from flask import redirect
 from os import urandom
 from utils.db import createBlogPost
+from utils.db import loadHomePage
 
 from utils.db import initializeDatabase
 from utils.auth import AuthService
@@ -20,7 +21,7 @@ def disp_loginpage():
     currentUser = auth.currentUser().payload
 
     if currentUser:
-        return render_template('homePage.html', username=currentUser["username"])
+        return render_template('homePage.html', blogs=loadHomePage())
 
     return render_template( 'login.html' ) # Render the login template
 

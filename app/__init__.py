@@ -45,12 +45,12 @@ def authenticate():
 def register():
     if request.method == "GET":
         return render_template('register.html')
-    elif request.method == "POST":
+    elif request.method == "POST":  #Takes values entered by user via request.values
         username = request.values['username']
         displayName = request.values['displayName']
         password = request.values['password']
-        auth.register(username, displayName, password)
-        return redirect("/login")
+        auth.register(username, displayName, password) #Appends user info to a database
+        return redirect("/login") #After registering, brings you to login
 
 @app.route("/editBlog", methods = ['GET', 'POST'])
 def editBlog():
@@ -58,26 +58,26 @@ def editBlog():
         return render_template('editBlog.html', edit = "filler", postTitle ="filler", postContent ="filler content")
     elif request.method == "POST":
         return "filler"
-        
+
 @app.route("/dashboard")
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('dashboard .html')
 
 @app.route("/createPosts", methods =['GET', 'POST'])
 def createPost():
     if request.method == "GET":
         return render_template('createPosts.html')
-    elif request.method == "POST":
+    elif request.method == "POST": #When user submits, the values from the request are taken
         title = request.values['title']
         contents = request.values['contents']
-        userID = dict(auth.currentUser().payload)["username"]
-        createBlogPost(title, contents, userID)
+        userID = dict(auth.currentUser().payload)["username"] #Finds the userID from database
+        createBlogPost(title, contents, userID) #Appends values into database.
         return "filler"
 
 @app.route("/logout")
 def logout():
-    auth.logout()
-    return redirect("/")
+    auth.logout() #function to logout
+    return redirect("/") #redirect to home
 
 if __name__ == "__main__": #false if this file imported as module
     initializeDatabase()

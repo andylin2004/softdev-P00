@@ -82,3 +82,8 @@ raymondY -- 2021-11-04 9:25 am
 raymondY -- 2021-11-04 6:08 pm
 -bug fixing
 -attempt at rendering posts the users have made through myBlog.html
+
+raymondY -- 2021-11-04 7:16 pm
+-rendered posts in myBlog.html
+-added function to pull from database for editing
+-loaded values onto template for user to edit.

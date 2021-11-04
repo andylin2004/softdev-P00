@@ -1,4 +1,5 @@
 import sqlite3   #enable control of an sqlite database
+from utils.response import Response
 
 DB_FILE="database.db"
 
@@ -28,13 +29,22 @@ def initializeDatabase():
 
 # AUTH
 def addUser(username, displayName, password):
-    c.execute("INSERT INTO users (username, displayName, password) VALUES(? , ?, ?)", (username, displayName, password))
-    db.commit()
+    try:
+        c.execute("INSERT INTO users (username, displayName, password) VALUES(? , ?, ?)", (username, displayName, password))
+        db.commit()
+    except Exception as err: 
+        return Response(False, None, err)
 
 def getUserByUsername(username):
-    c.execute("SELECT * FROM users WHERE username = ?", (username,))
-    data = c.fetchone()
-    return data
+    try:
+        c.execute("SELECT * FROM users WHERE username = ?", (username,))
+        data = c.fetchone()
+
+        res = {"id": data[0], "username": data[1], "displayName": data[2], "password": data[3],}
+
+        return Response(True, res, "")
+    except Exception as err: 
+        return Response(False, None, err)
 
 # BLOG MANAGEMENT
 

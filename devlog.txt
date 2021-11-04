@@ -20,6 +20,11 @@ andyL -- 2021-10-29 09:05
 
 I added the designwiki0 and designwiki1 files (previous permutations)
 
+shadmanR -- 2021-10-29 09:05
+
+I started working on an AuthService class that could be used for getting the registering, loging in,
+getting the current user, managing sessions, etc.
+
 andyL -- 2021-10-31 16:52
 
 I updated README with the install instructions and made a superior name for the blog. Also
@@ -32,7 +37,9 @@ added a few more funcs dedicated for fetching blog post info.
 
 shadmanR -- 2021-11-02 19:51
 
--worked more on the database and authentication package (auth login, )
+-worked more on refactoring the code to use packages for database and authentication.
+-wrote basic database functions related to initialization and auth
+-wrote login and current user functions
 
 andyL -- 2021-11-02 22:39
 
@@ -55,3 +62,8 @@ raymondY -- 2021-11-03 5:52 pm
 -new template (createPosts)
 -basic css (centering only rn)
 -links on home page (for testing, not sure if the current layout is what we want.)
+
+shadmanR -- 2021-11-02 09:15
+
+Improved auth by using sessionIDs and hashing and salting passwords
+Refactored the code to use a Response class. Added error handling for the database and auth functions.

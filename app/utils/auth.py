@@ -1,8 +1,9 @@
 from flask import Flask             #facilitate flask webserving
 from flask import session           #facilitate user sessions
+from os import urandom
 from utils.db import initializeUsersTable, addUser, getUserByUsername
 from werkzeug.security import generate_password_hash, check_password_hash
-from os import urandom
+from utils.response import Response
 
 class AuthService:
 
@@ -17,23 +18,32 @@ class AuthService:
             username = self.activeUsers[sessionID]
 
             userData = getUserByUsername(username)
-            return userData
 
-        return None
+            if (userData.success):
+                return Response(True, userData.payload, "")
+
+        return Response(False, None, "")
 
     def login(self, username, password):
         userData = getUserByUsername(username)
 
-        if userData and username == userData[1]:
-            if check_password_hash(userData[3], password):
-                sessionID = urandom(32)
-                session["sessionID"] = sessionID
-                self.activeUsers[sessionID] = username
+        if (userData.success):
+            if userData.payload and username == userData.payload["username"]:
+                if check_password_hash(userData.payload["password"], password):
+                    sessionID = urandom(32)
+                    session["sessionID"] = sessionID
+                    self.activeUsers[sessionID] = username
 
-                return True
+                    return Response(True, True, "")
 
-        return False
+        return Response(False, False, "")
 
     def register(self, username, displayName, password):
         hashedPw = generate_password_hash(password)
         addUser(username, displayName, hashedPw)
+        return Response(True, True, "")
+
+    def logout(self):
+        if session.get("username"):
+            session.pop("username")
+        return Response(True, True, "")

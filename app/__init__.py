@@ -7,7 +7,6 @@ from os import urandom
 
 from utils.db import initializeDatabase
 from utils.auth import AuthService
-from utils.auth import addUser
 
 app = Flask(__name__)
 
@@ -17,11 +16,11 @@ auth = AuthService()
 
 @app.route("/")
 def disp_loginpage():
-    currentUser = auth.currentUser()
-    print("currentUser:", currentUser)
+    currentUser = auth.currentUser().payload
 
     if currentUser:
-        return render_template('homePage.html', username=currentUser[2])
+        return render_template('homePage.html', username=currentUser["username"])
+    
     return render_template( 'login.html' ) # Render the login template
 
 
@@ -36,8 +35,8 @@ def authenticate():
         username = request.values['username']
         password = request.values['password']
 
-        if auth.login(username, password):
-            return render_template('homePage.html', username=username)
+        if auth.login(username, password).success:
+            return redirect("/")
         else:
             return render_template('login.html', error='Incorrect username or password')
 
@@ -66,8 +65,7 @@ def createPost():
 
 @app.route("/logout")
 def logout():
-    if session.get("username"):
-        session.pop("username")
+    auth.logout()
     return redirect("/")
 
 if __name__ == "__main__": #false if this file imported as module

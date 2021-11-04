@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 app/database.db
 app/database.db-journal
+*.DS_Store
+database.db

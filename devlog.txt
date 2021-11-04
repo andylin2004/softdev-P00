@@ -68,6 +68,10 @@ shadmanR -- 2021-11-02 09:15
 Improved auth by using sessionIDs and hashing and salting passwords
 Refactored the code to use a Response class. Added error handling for the database and auth functions.
 
-andyL -- 2021-11-02 00:32
+andyL -- 2021-11-04 00:32
 
 I worked on ensuring that I could make a blog post (which partially works). Also fixed some sqlite3 related issues.
+
+andyL -- 2021-11-04 09:23
+
+I worked on fixing the create blog post page (which is now done). Also started to work on the home page blog post feed (now renders out title and author name).

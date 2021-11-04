@@ -12,9 +12,14 @@
         </h1>
         <h3>
             <input type="text" name="search">
-             <input type = "submit" name = "search" value = "Search">
-            </h3>
+            <input type = "submit" name = "search" value = "Search">
+        </h3>
+        {% for blog in blogs %}
+        <h2>{{ blog[3] }}</h2>
+        by {{ blog[1] }}
         <br>
+        <br>
+        {% endfor %}
         <a href="/logout">Logout</a>
         <a href="/dashboard">Dashboard</a>
         <a href="/createPosts">Create New Post</a>

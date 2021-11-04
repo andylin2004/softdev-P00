@@ -61,7 +61,9 @@ def createBlogPost(title, content, userID):
     db.commit()
 
 def loadHomePage():
-    c.execute("SELECT * FROM blogs ORDERED BY date DESC")
+    c.execute("SELECT * FROM blogs ORDER BY date DESC")
+    data = c.fetchall()
+    return data
 
 def editBlogPost(id, title, content, userID):
     c.execute("UPDATE blogs SET title = ':title', SET content = ':content' WHERE id = :id", {'title': title, 'content': content, 'id': id})

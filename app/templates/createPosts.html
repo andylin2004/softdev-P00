@@ -7,18 +7,20 @@
     </head>
 
     <body>
-      <a href="/">Home</a>
+      <a href="/" type = "button">Home</a>
         <h1>
           Create
         </h1>
-        Title:
-        <br>
-          <input type="text" name="title">
+        <form action="/createPosts" method="POST">
+          Title:
           <br>
-        Post Contents:
-        <br>
-          <input type="text" name="contents">
-        <br>
-        <input type = "submit" name = "create" value = "Create Post">
+            <input type="text" name="title">
+            <br>
+          Post Contents:
+            <br>
+            <input type="text" name="contents">
+            <br>
+            <input type = "submit" name = "create" value = "Create Post">
+    </form>
     </body>
 </html>

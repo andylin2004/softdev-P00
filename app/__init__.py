@@ -20,7 +20,7 @@ def disp_loginpage():
 
     if currentUser:
         return render_template('homePage.html', username=currentUser["username"])
-    
+
     return render_template( 'login.html' ) # Render the login template
 
 
@@ -51,17 +51,23 @@ def register():
         auth.register(username, displayName, password)
         return redirect("/login")
 
-@app.route("/editBlog")
+@app.route("/editBlog", methods = ['GET', 'POST'])
 def editBlog():
-    return render_template('editBlog.html', edit = "filler", postTitle ="filler", postContent ="filler content")
-
+    if request.method == "GET":
+        return render_template('editBlog.html', edit = "filler", postTitle ="filler", postContent ="filler content")
+    elif request.method == "POST":
+        return "filler"
+        
 @app.route("/dashboard")
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route("/createPosts")
+@app.route("/createPosts", methods =['GET', 'POST'])
 def createPost():
-    return render_template('createPosts.html')
+    if request.method == "GET":
+        return render_template('createPosts.html')
+    elif request.method == "POST":
+        return "filler"
 
 @app.route("/logout")
 def logout():

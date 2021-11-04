@@ -57,7 +57,7 @@ def pullUserData(userID):
     data = c.fetchall()
 
 def createBlogPost(title, content, userID):
-    c.execute("INSERT INTO blogs VALUES ((SELECT COUNT(*) FROM blog), :userID, (SELECT DATETIME('now')), :title, :content)", {'userID': userID, 'title': title, 'content': content})
+    c.execute("INSERT INTO blogs (author, date, title, content) VALUES (:userID, (SELECT DATETIME('now')), :title, :content)", {'userID': userID, 'title': title, 'content': content})
     db.commit()
 
 def loadHomePage():

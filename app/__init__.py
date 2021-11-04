@@ -4,6 +4,7 @@ from flask import request           #facilitate form submission
 from flask import session           #facilitate user sessions
 from flask import redirect
 from os import urandom
+from utils.db import createBlogPost
 
 from utils.db import initializeDatabase
 from utils.auth import AuthService
@@ -67,6 +68,10 @@ def createPost():
     if request.method == "GET":
         return render_template('createPosts.html')
     elif request.method == "POST":
+        title = request.values['title']
+        contents = request.values['contents']
+        userID = auth.currentUser().payload
+        createBlogPost(title, contents, userID)
         return "filler"
 
 @app.route("/logout")

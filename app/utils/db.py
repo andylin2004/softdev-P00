@@ -15,7 +15,7 @@ def initializeUsersTable():
     UNIQUE (username, ID))''')
 
 def initializePostsTable():
-    c.execute('''CREATE TABLE IF NOT EXISTS users(
+    c.execute('''CREATE TABLE IF NOT EXISTS blog(
     ID INTEGER PRIMARY KEY,
     author TEXT,
     date TEXT,
@@ -57,7 +57,7 @@ def pullUserData(userID):
     data = c.fetchall()
 
 def createBlogPost(title, content, userID):
-    c.execute('INSERT INTO blogs VALUES (SELECT COUNT(*) FROM blog, ":userID", SELECT datetime(\'now\'), ":title", ":content")', {'userID': userID, 'title': title, 'content': content})
+    c.execute('INSERT INTO blogs VALUES ((SELECT COUNT(*) FROM blog), ":userID", (SELECT DATETIME(\'now\')), ":title", ":content")', {'userID': userID, 'title': title, 'content': content})
     db.commit()
 
 def loadHomePage():

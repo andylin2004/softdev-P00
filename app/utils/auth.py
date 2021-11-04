@@ -22,7 +22,8 @@ class AuthService:
             if (userDataResponse.success):
                 userData = userDataResponse.payload
                 return Response(True, userData, "")
-
+            else:
+                Response(True, None, "")
         return Response(False, None, "")
 
     def login(self, username, password):

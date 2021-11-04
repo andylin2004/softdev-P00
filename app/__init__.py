@@ -70,7 +70,7 @@ def createPost():
     elif request.method == "POST":
         title = request.values['title']
         contents = request.values['contents']
-        userID = auth.currentUser().payload
+        userID = dict(auth.currentUser().payload)["username"]
         createBlogPost(title, contents, userID)
         return "filler"
 

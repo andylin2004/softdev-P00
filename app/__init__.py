@@ -7,6 +7,7 @@ from os import urandom
 from utils.db import createBlogPost
 from utils.db import loadHomePage
 from utils.db import pullUserData
+from utils.db import loadEdit
 
 from utils.db import initializeDatabase
 from utils.auth import AuthService
@@ -54,10 +55,12 @@ def register():
         auth.register(username, displayName, password) #Appends user info to a database
         return redirect("/login") #After registering, brings you to login
 
-@app.route("/editBlog", methods = ['GET', 'POST'])
-def editBlog():
+@app.route("/editBlog/<string:id>", methods = ['GET', 'POST'])
+def editBlog(id):
+    blog = loadEdit(id)
     if request.method == "GET":
-        return render_template('editBlog.html', edit = "fillers", postTitle ="filler", postContent ="filler content")
+        print(blog)
+        return render_template('editBlog.html', postTitle = blog[3], postContent = blog[4])
     elif request.method == "POST":
         return "test"
 

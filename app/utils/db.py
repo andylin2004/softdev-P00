@@ -53,7 +53,7 @@ def search(searchQuery):
     data = c.fetchall()
 
 def pullUserData(userID):
-    c.execute("SELECT * FROM blogs WHERE author IS ':userID' ORDER by date DESC", {'userId': userID})
+    c.execute("SELECT * FROM blogs WHERE author IS ? ORDER by date DESC", (userID))
     data = c.fetchall()
     return data
 
@@ -69,3 +69,8 @@ def loadHomePage():
 def editBlogPost(id, title, content, userID):
     c.execute("UPDATE blogs SET title = ':title', SET content = ':content' WHERE id = :id", {'title': title, 'content': content, 'id': id})
     db.commit()
+
+def loadEdit(id):
+    c.execute("SELECT * FROM blogs WHERE id is ?", (id))
+    data = c.fetchone()
+    return data

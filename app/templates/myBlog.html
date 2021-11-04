@@ -13,8 +13,10 @@
         </h1>
         {% for blog in blogs %}
         <h2>{{ blog[3] }}</h2>
-        by {{ blog[1] }}
-        
+        Posted: {{ blog[2]}}
+        <br>
+        <h3>{{blog[4]}}</h3>
+        <a href = "/editBlog/{{blog[0]}}">Edit</a>
         {% endfor %}
     </body>
 </html>

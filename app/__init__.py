@@ -56,6 +56,10 @@ def editBlog(id):
     if request.method == "GET":
         return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4])
     elif request.method == "POST":
+        userID = dict(auth.currentUser().payload)["username"]
+        title = request.values['title']
+        content = request.values['contents']
+        editBlogPost(id, title, content, userID)
         return redirect("/myBlog")
 
 @app.route("/myBlog")

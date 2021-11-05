@@ -53,7 +53,7 @@ def search(searchQuery):
     data = c.fetchall()
 
 def pullUserData(userID):
-    c.execute("SELECT * FROM blogs WHERE author IS ? ORDER by date DESC", (userID))
+    c.execute("SELECT * FROM blogs WHERE author IS ? ORDER by date DESC", (userID,))
     data = c.fetchall()
     return data
 

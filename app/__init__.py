@@ -77,7 +77,7 @@ def createPost():
         contents = request.values['contents']
         userID = dict(auth.currentUser().payload)["username"] #Finds the userID from database
         createBlogPost(title, contents, userID) #Appends values into database.
-        return "filler"
+        return redirect("/myBlog")
 
 @app.route("/logout")
 def logout():

@@ -11,8 +11,10 @@
           Home Page
         </h1>
         <h3>
-            <input type="text" name="search">
-            <input type = "submit" name = "search" value = "Search">
+            <form action="/search" method="POST">
+                <input type="text" name="search">
+                <input type = "submit" name = "search" value = "Search">
+            </form>
         </h3>
         {% for blog in blogs %}
         <h2>{{ blog[3] }}</h2>

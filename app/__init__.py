@@ -59,7 +59,7 @@ def register():
 def editBlog(id):
     blog = loadEdit(id)
     if request.method == "GET":
-        return render_template('editBlog.html', postTitle = blog[3], postContent = blog[4])
+        return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4])
     elif request.method == "POST":
         return "test"
 

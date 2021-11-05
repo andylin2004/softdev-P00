@@ -53,15 +53,18 @@ def search(searchQuery):
     data = c.fetchall()
 
 def pullUserData(userID):
-    c.execute("SELECT * FROM blogs WHERE author IS ':userID'", {'userId': userID})
+    c.execute("SELECT * FROM blogs WHERE author IS ? ORDER by date DESC", (userID))
     data = c.fetchall()
+    return data
 
 def createBlogPost(title, content, userID):
     c.execute("INSERT INTO blogs (author, date, title, content) VALUES (:userID, (SELECT DATETIME('now')), :title, :content)", {'userID': userID, 'title': title, 'content': content})
     db.commit()
 
 def loadHomePage():
-    c.execute("SELECT * FROM blogs ORDERED BY date DESC")
+    c.execute("SELECT * FROM blogs ORDER BY date DESC")
+    data = c.fetchall()
+    return data
 
 def editBlogPost(id, title, content, userID):
     c.execute("UPDATE blogs SET title = ':title', SET content = ':content' WHERE id = :id", {'title': title, 'content': content, 'id': id})
@@ -77,3 +80,8 @@ def getPostByID(id):
         return Response(True, res, "")
     except Exception as err:
         return Response(False, None, err)
+
+def loadEdit(id):
+    c.execute("SELECT * FROM blogs WHERE id is ?", (id))
+    data = c.fetchone()
+    return data

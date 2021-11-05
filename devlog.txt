@@ -9,7 +9,7 @@ shadmanR -- 2021-10-27 10:47pm
 andyL -- 2021-10-28 21:56
 
 I updated the design doc with a better visualization of the program components,
-as well as splitting off login and logout in the site map. Login is also 
+as well as splitting off login and logout in the site map. Login is also
 responsible for returning the login error that was encountered. In addition, login
 will now be able to go to a list of blogs on top of other sites, and search will
 be able to return a list of blogs as well as blog posts. I also changed around the
@@ -32,7 +32,7 @@ made a requirement.txt and ensured that app.py was functional (college apps are 
 
 andyL -- 2021-11-01 09:01
 
-I fixed the dependencies in requirements.txt (as the dependencies were excessive). I also 
+I fixed the dependencies in requirements.txt (as the dependencies were excessive). I also
 added a few more funcs dedicated for fetching blog post info.
 
 shadmanR -- 2021-11-02 19:51
@@ -44,7 +44,7 @@ shadmanR -- 2021-11-02 19:51
 andyL -- 2021-11-02 22:39
 
 I worked on ensuring that the register website worked (with form for display name, username,
-password), even if the current setup is super janky right now. Also removed references in 
+password), even if the current setup is super janky right now. Also removed references in
 register page that referred to login page. Register will redirect to a url that manages signup,
 then redirect to login page. Removed login button from home page (this is to be line with Mykolyk's
 requests). Combined db.py and old backend.py scripts together. Made a loadHomePage func that loads all
@@ -68,6 +68,22 @@ shadmanR -- 2021-11-02 09:15
 Improved auth by using sessionIDs and hashing and salting passwords
 Refactored the code to use a Response class. Added error handling for the database and auth functions.
 
-andyL -- 2021-11-02 00:32
+andyL -- 2021-11-04 00:32
 
 I worked on ensuring that I could make a blog post (which partially works). Also fixed some sqlite3 related issues.
+
+andyL -- 2021-11-04 09:23
+
+I worked on fixing the create blog post page (which is now done). Also started to work on the home page blog post feed (now renders out title and author name).
+
+raymondY -- 2021-11-04 9:25 am
+-added comments to functions
+
+raymondY -- 2021-11-04 6:08 pm
+-bug fixing
+-attempt at rendering posts the users have made through myBlog.html
+
+raymondY -- 2021-11-04 7:16 pm
+-rendered posts in myBlog.html
+-added function to pull from database for editing
+-loaded values onto template for user to edit.

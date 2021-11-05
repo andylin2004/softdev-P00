@@ -61,7 +61,7 @@ def editBlog(id):
     if request.method == "GET":
         return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4])
     elif request.method == "POST":
-        return "test"
+        return redirect("/myBlog")
 
 @app.route("/myBlog")
 def myBlog():

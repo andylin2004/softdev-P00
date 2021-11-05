@@ -9,7 +9,7 @@ from utils.db import loadHomePage
 from utils.db import pullUserData
 from utils.db import loadEdit
 
-from utils.db import initializeDatabase
+from utils.db import initializeDatabase, createBlogPost, getPostByID
 from utils.auth import AuthService
 
 app = Flask(__name__)
@@ -67,6 +67,15 @@ def editBlog(id):
 def myBlog():
     userID = dict(auth.currentUser().payload)["username"]
     return render_template('myBlog.html', blogs=pullUserData(userID))
+
+@app.route("/post/<int:id>")
+def viewPost(id):
+    postDataResponse = getPostByID(id)
+    if (postDataResponse.success):
+        data = postDataResponse.payload
+        return render_template('post.html', found = True, author = data["author"], title = data["title"], date = data["date"], content = data["content"])
+    else:
+        return render_template('post.html', found = False, )
 
 @app.route("/createPosts", methods =['GET', 'POST'])
 def createPost():

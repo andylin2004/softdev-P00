@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        {% if found %}
+          <title>{{title}}</title>
+        {% else %}
+          <title>Not found</title>
+        {% endif %}
+    </head>
+
+    <body>
+      {% if found %}
+      <h1>
+        {{title}}
+      </h1>
+      <p>By {{author}}</p>
+      <small>{{date}}</small>
+      <br>
+      <br>
+      <p>{{content}}</p>
+      {% else %}
+        <p>Not found</p>
+      {% endif %}
+    </body>
+</html>

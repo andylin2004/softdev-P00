@@ -4,14 +4,9 @@ from flask import request           #facilitate form submission
 from flask import session           #facilitate user sessions
 from flask import redirect
 from os import urandom
-from utils.db import createBlogPost
-from utils.db import loadHomePage
-from utils.db import pullUserData
-from utils.db import loadEdit
 
-from utils.db import initializeDatabase, createBlogPost, getPostByID
 from utils.auth import AuthService
-
+from utils.db import *
 app = Flask(__name__)
 
 # from utils.db import initializeDatabase;

@@ -12,8 +12,12 @@
 
 `$ git clone https://github.com/andylin2004/softdev-P00.git`
 
-`$ pip3 install -r requirements.txt` IT IS IMPORTANT TO USE PIP3; MACOS DEFAULTS PIP TO PYTHON 2'S IMPLEMETATION
+`$ cd /softdev-P00`
+
+`$ pip3 install -r requirements.txt` IT IS IMPORTANT TO USE PIP3; MACOS DEFAULTS PIP TO PYTHON 2'S IMPLEMENTATION
 
 ### Run the application
 
-`$ python3 app/__init__.py` IT IS IMPORTANT TO USE PYTHON3; MACOS DEFAULTS PYTHON TO PYTHON2
+`$ cd /app`
+
+`$ python3 __init__.py` IT IS IMPORTANT TO USE PYTHON3; MACOS DEFAULTS PYTHON TO PYTHON2

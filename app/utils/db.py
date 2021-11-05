@@ -70,6 +70,17 @@ def editBlogPost(id, title, content, userID):
     c.execute("UPDATE blogs SET title = ':title', SET content = ':content' WHERE id = :id", {'title': title, 'content': content, 'id': id})
     db.commit()
 
+def getPostByID(id):
+    try:
+        c.execute("SELECT * FROM blogs WHERE id = ?", (id,))
+        data = c.fetchone()
+
+        res = {"id": data[0], "author": data[1], "date": data[2], "title": data[3], "content": data[4],}
+
+        return Response(True, res, "")
+    except Exception as err:
+        return Response(False, None, err)
+
 def loadEdit(id):
     c.execute("SELECT * FROM blogs WHERE id is ?", (id))
     data = c.fetchone()

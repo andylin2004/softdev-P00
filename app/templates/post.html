@@ -4,8 +4,6 @@
     <head>
         {% if found %}
           <title>{{title}}</title>
-        % if found %}
-          <title>{{title}}</title>
         {% else %}
           <title>Not found</title>
         {% endif %}
@@ -16,8 +14,11 @@
       <h1>
         {{title}}
       </h1>
-      <h2> By {{author}} </h2>
-      <p>>{{content}}</p>
+      <p>By {{author}}</p>
+      <small>{{date}}</small>
+      <br>
+      <br>
+      <p>{{content}}</p>
       {% else %}
         <p>Not found</p>
       {% endif %}

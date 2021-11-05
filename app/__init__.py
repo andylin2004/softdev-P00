@@ -64,7 +64,7 @@ def dashboard():
 
 @app.route("/post/<int:id>")
 def viewPost(id):
-    postDataResponse = getUserByUsername(username)
+    postDataResponse = getPostByID(id)
     if (postDataResponse.success):
         data = postDataResponse.payload
         return render_template('post.html', found = True, author = data["author"], title = data["title"], date = data["date"], content = data["content"])

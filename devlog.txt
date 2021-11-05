@@ -79,6 +79,9 @@ I worked on fixing the create blog post page (which is now done). Also started t
 raymondY -- 2021-11-04 9:25 am
 -added comments to functions
 
+shadmanR -- 2021-11-04 9:25 am
+-started working on querying database for posts and dynamically rendering them.
+
 raymondY -- 2021-11-04 6:08 pm
 -bug fixing
 -attempt at rendering posts the users have made through myBlog.html
@@ -87,3 +90,6 @@ raymondY -- 2021-11-04 7:16 pm
 -rendered posts in myBlog.html
 -added function to pull from database for editing
 -loaded values onto template for user to edit.
+
+shadmanR -- 2021-11-04 9:25 am
+-finished dynamically rendering posts and merged work

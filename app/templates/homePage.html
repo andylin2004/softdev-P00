@@ -11,11 +11,13 @@
           Home Page
         </h1>
         <h3>
-            <input type="text" name="search">
-            <input type = "submit" name = "search" value = "Search">
+            <form action="/search" method="POST">
+                <input type="text" name="search">
+                <input type = "submit" name = "search" value = "Search">
+            </form>
         </h3>
         {% for blog in blogs %}
-        <h2>{{ blog[3] }}</h2>
+        <h2><a href ="/post/{{blog[id]}}">{{ blog[3] }}</a></h2>
         by {{ blog[1] }}
         <br>
         <br>

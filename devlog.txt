@@ -58,7 +58,7 @@ I worked on fixing some URLs up so that they would follow the design doc. Also f
 database values did not save between different database instances. Also merged app.py into init.py and
 added another function to update a blog post.
 
-raymondY -- 2021-11-03 5:52 pm
+raymondY -- 2021-11-03 17:52
 
 -fixed some bugs
 -new template (createPosts)
@@ -78,17 +78,17 @@ andyL -- 2021-11-04 09:23
 
 I worked on fixing the create blog post page (which is now done). Also started to work on the home page blog post feed (now renders out title and author name).
 
-raymondY -- 2021-11-04 9:25 am
+raymondY -- 2021-11-04 09:25
 -added comments to functions
 
-shadmanR -- 2021-11-04 9:25 am
+shadmanR -- 2021-11-04 09:25
 -started working on querying database for posts and dynamically rendering them.
 
-raymondY -- 2021-11-04 6:08 pm
+raymondY -- 2021-11-04 18:08
 -bug fixing
 -attempt at rendering posts the users have made through myBlog.html
 
-raymondY -- 2021-11-04 7:16 pm
+raymondY -- 2021-11-04 19:16
 -rendered posts in myBlog.html
 -added function to pull from database for editing
 -loaded values onto template for user to edit.
@@ -96,7 +96,7 @@ raymondY -- 2021-11-04 7:16 pm
 shadmanR -- 2021-11-04 9:25 am
 -finished dynamically rendering posts and merged work
 
-raymondY -- 2021-11-05-5:43 pm
+raymondY -- 2021-11-05 17:43
 -added header for devlog
 -fixed edit function in db.py
 -updated table values before redirecting in editBlog function.

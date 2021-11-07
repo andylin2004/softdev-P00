@@ -21,6 +21,7 @@ def initializePostsTable():
     date TEXT,
     title TEXT,
     content TEXT,
+    edit TEXT,
     UNIQUE (ID))''')
 
 def initializeDatabase():
@@ -59,7 +60,7 @@ def pullUserData(userID):
     return data
 
 def createBlogPost(title, content, userID):
-    c.execute("INSERT INTO blogs (author, date, title, content) VALUES (:userID, (SELECT DATETIME('now')), :title, :content)", {'userID': userID, 'title': title, 'content': content})
+    c.execute("INSERT INTO blogs (author, date, title, content, edit) VALUES (:userID, (SELECT DATETIME('now')), :title, :content, 0)", {'userID': userID, 'title': title, 'content': content})
     db.commit()
 
 def loadHomePage():
@@ -68,7 +69,7 @@ def loadHomePage():
     return data
 
 def editBlogPost(id, title, content, userID):
-    c.execute("UPDATE blogs SET title = ':title', SET content = ':content' WHERE id = :id", {'title': title, 'content': content, 'id': id})
+    c.execute("UPDATE blogs SET title =?, content =?, edit = 1, date = (SELECT DATETIME('now')) WHERE id = ?", (title, content, id))
     db.commit()
 
 def getPostByID(id):

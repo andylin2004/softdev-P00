@@ -48,5 +48,8 @@ class AuthService:
 
     def logout(self):
         if session.get("sessionID"):
+            if session.get("sessionID") in activeUsers:
+                activeUsers.pop(session.get("sessionID"))
+                
             session.pop("sessionID")
         return Response(True, True, "")

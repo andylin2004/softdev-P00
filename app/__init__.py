@@ -4,18 +4,10 @@ from flask import request           #facilitate form submission
 from flask import session           #facilitate user sessions
 from flask import redirect
 from os import urandom
-from utils.db import createBlogPost
-from utils.db import loadHomePage
-from utils.db import pullUserData
-from utils.db import loadEdit
-from utils.db import *
 
-from utils.db import initializeDatabase, createBlogPost, getPostByID
 from utils.auth import AuthService
-
+from utils.db import *
 app = Flask(__name__)
-
-# from utils.db import initializeDatabase;
 
 auth = AuthService()
 
@@ -62,6 +54,10 @@ def editBlog(id):
     if request.method == "GET":
         return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4])
     elif request.method == "POST":
+        userID = dict(auth.currentUser().payload)["username"]
+        title = request.values['title']
+        content = request.values['contents']
+        editBlogPost(id, title, content, userID)
         return redirect("/myBlog")
 
 @app.route("/myBlog")

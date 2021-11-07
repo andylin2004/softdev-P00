@@ -49,8 +49,9 @@ def getUserByUsername(username):
 # BLOG MANAGEMENT
 
 def search(searchQuery):
-    c.execute("SELECT * FROM blogs WHERE blogTitle LIKE '%:title%'", {'title': searchQuery})
+    c.execute("SELECT * FROM blogs WHERE title LIKE '%:title%'", {'title': searchQuery})
     data = c.fetchall()
+    return data
 
 def pullUserData(userID):
     c.execute("SELECT * FROM blogs WHERE author IS ? ORDER by date DESC", (userID,))

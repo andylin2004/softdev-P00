@@ -8,6 +8,7 @@ from utils.db import createBlogPost
 from utils.db import loadHomePage
 from utils.db import pullUserData
 from utils.db import loadEdit
+from utils.db import *
 
 from utils.db import initializeDatabase, createBlogPost, getPostByID
 from utils.auth import AuthService
@@ -67,6 +68,15 @@ def editBlog(id):
 def myBlog():
     userID = dict(auth.currentUser().payload)["username"]
     return render_template('myBlog.html', blogs=pullUserData(userID))
+
+@app.route("/search", methods = ['GET', 'POST'])
+def loadSearchResult():
+    if request.method == "GET":
+        return render_template('search.html')
+    elif request.method == "POST":
+        query = request.values['query']
+        result = search(query)
+        return render_template('search.html', query = query, blogs = result)
 
 @app.route("/post/<int:id>")
 def viewPost(id):

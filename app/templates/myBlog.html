@@ -12,15 +12,16 @@
           My Blog Posts
         </h1>
         {% for blog in blogs %}
-            <h2>{{ blog[3] }}</h2>
+        <hr>
+        <a href="/post/{{blog[0]}}"><h2>{{ blog[3] }}</h2></a>
             {% if blog[5] == "1" %}
             Posted: {{blog[2]}} (Edited: {{blog[2]}})
             {% else %}
             Posted: {{blog[2]}}
             {% endif %}
             <br>
-            <h3>{{blog[4]}}</h3>
             <a href = "/editBlog/{{blog[0]}}">Edit</a>
+            <a href = "/deleteBlog/{{blog[0]}}">Delete</a>
         {% endfor %}
     </body>
 </html>

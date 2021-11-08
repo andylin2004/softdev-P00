@@ -60,6 +60,12 @@ def editBlog(id):
         editBlogPost(id, title, content, userID)
         return redirect("/myBlog")
 
+@app.route("/deleteBlog/<string:id>", methods = ['GET'])
+def deleteBlog(id):
+    if request.method == "GET":
+        deleteBlogPost(id)
+        return redirect("/myBlog")
+
 @app.route("/myBlog")
 def myBlog():
     userID = dict(auth.currentUser().payload)["username"]

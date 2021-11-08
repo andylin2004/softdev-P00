@@ -88,3 +88,12 @@ def loadEdit(id):
     c.execute("SELECT * FROM blogs WHERE id is ?", (id))
     data = c.fetchone()
     return data
+
+def deleteBlogPost(id):
+    try:
+        c.execute("DELETE FROM blogs WHERE id is ?", (id))
+        db.commit()
+        
+        return Response(True, None, "")
+    except Exception as err:
+        return Response(False, None, err)

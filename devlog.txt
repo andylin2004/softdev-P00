@@ -93,3 +93,4 @@ raymondY -- 2021-11-04 7:16 pm
 
 shadmanR -- 2021-11-04 9:25 am
 -finished dynamically rendering posts and merged work
+-add dynamic links

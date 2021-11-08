@@ -2,22 +2,22 @@
 
 <html>
     <head>
-        <title>HOME</title>
+        <title>SEARCH</title>
         <link href ="../static/css/styles.css" rel ="stylesheet" type ="text/css">
     </head>
 
     <body>
         <h1>
-          Home Page
+          Search
         </h1>
         <h3>
             <form action="/search" method="POST">
-                <input type="text" name="query">
+                <input type="text" name="query" value = "{{ query }}">
                 <input type = "submit" name = "search" value = "Search">
             </form>
         </h3>
         {% for blog in blogs %}
-        <a href="/post/{{blog[0]}}"><h2>{{ blog[3] }}</h2></a>
+        <h2><a href ="/post/id">{{ blog[3] }}</a></h2>
         by {{ blog[1] }}
         <br>
         <br>

@@ -21,6 +21,7 @@ def initializePostsTable():
     date TEXT,
     title TEXT,
     content TEXT,
+    edit TEXT,
     UNIQUE (ID))''')
 
 def initializeDatabase():
@@ -49,8 +50,10 @@ def getUserByUsername(username):
 # BLOG MANAGEMENT
 
 def search(searchQuery):
-    c.execute("SELECT * FROM blogs WHERE blogTitle LIKE '%:title%'", {'title': searchQuery})
+    q = "%"+searchQuery+"%"
+    c.execute("SELECT * FROM blogs WHERE title LIKE ? OR author LIKE ? ORDER by date DESC", (q, q))
     data = c.fetchall()
+    return data
 
 def pullUserData(userID):
     c.execute("SELECT * FROM blogs WHERE author IS ? ORDER by date DESC", (userID,))
@@ -58,7 +61,7 @@ def pullUserData(userID):
     return data
 
 def createBlogPost(title, content, userID):
-    c.execute("INSERT INTO blogs (author, date, title, content) VALUES (:userID, (SELECT DATETIME('now')), :title, :content)", {'userID': userID, 'title': title, 'content': content})
+    c.execute("INSERT INTO blogs (author, date, title, content, edit) VALUES (:userID, (SELECT DATETIME('now')), :title, :content, 0)", {'userID': userID, 'title': title, 'content': content})
     db.commit()
 
 def loadHomePage():
@@ -67,7 +70,7 @@ def loadHomePage():
     return data
 
 def editBlogPost(id, title, content, userID):
-    c.execute("UPDATE blogs SET title = ':title', SET content = ':content' WHERE id = :id", {'title': title, 'content': content, 'id': id})
+    c.execute("UPDATE blogs SET title =?, content =?, edit = (SELECT DATETIME('now')) WHERE id = ?", (title, content, id))
     db.commit()
 
 def getPostByID(id):
@@ -75,7 +78,7 @@ def getPostByID(id):
         c.execute("SELECT * FROM blogs WHERE id = ?", (id,))
         data = c.fetchone()
 
-        res = {"id": data[0], "author": data[1], "date": data[2], "title": data[3], "content": data[4],}
+        res = {"id": data[0], "author": data[1], "date": data[2], "title": data[3], "content": data[4], "edit": data[5]}
 
         return Response(True, res, "")
     except Exception as err:

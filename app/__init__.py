@@ -9,8 +9,6 @@ from utils.auth import AuthService
 from utils.db import *
 app = Flask(__name__)
 
-# from utils.db import initializeDatabase;
-
 auth = AuthService()
 
 @app.route("/")
@@ -56,6 +54,10 @@ def editBlog(id):
     if request.method == "GET":
         return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4])
     elif request.method == "POST":
+        userID = dict(auth.currentUser().payload)["username"]
+        title = request.values['title']
+        content = request.values['contents']
+        editBlogPost(id, title, content, userID)
         return redirect("/myBlog")
 
 @app.route("/myBlog")
@@ -63,12 +65,21 @@ def myBlog():
     userID = dict(auth.currentUser().payload)["username"]
     return render_template('myBlog.html', blogs=pullUserData(userID))
 
+@app.route("/search", methods = ['GET', 'POST'])
+def loadSearchResult():
+    if request.method == "GET":
+        return render_template('search.html')
+    elif request.method == "POST":
+        query = request.values['query']
+        result = search(query)
+        return render_template('search.html', query = query, blogs = result)
+
 @app.route("/post/<int:id>")
 def viewPost(id):
     postDataResponse = getPostByID(id)
     if (postDataResponse.success):
         data = postDataResponse.payload
-        return render_template('post.html', found = True, author = data["author"], title = data["title"], date = data["date"], content = data["content"])
+        return render_template('post.html', found = True, author = data["author"], title = data["title"], date = data["date"], content = data["content"], edit = data["edit"])
     else:
         return render_template('post.html', found = False, )
 

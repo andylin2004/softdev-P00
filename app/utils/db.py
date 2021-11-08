@@ -70,7 +70,7 @@ def loadHomePage():
     return data
 
 def editBlogPost(id, title, content, userID):
-    c.execute("UPDATE blogs SET title =?, content =?, edit = 1, date = (SELECT DATETIME('now')) WHERE id = ?", (title, content, id))
+    c.execute("UPDATE blogs SET title =?, content =?, edit = (SELECT DATETIME('now')) WHERE id = ?", (title, content, id))
     db.commit()
 
 def getPostByID(id):
@@ -78,7 +78,7 @@ def getPostByID(id):
         c.execute("SELECT * FROM blogs WHERE id = ?", (id,))
         data = c.fetchone()
 
-        res = {"id": data[0], "author": data[1], "date": data[2], "title": data[3], "content": data[4],}
+        res = {"id": data[0], "author": data[1], "date": data[2], "title": data[3], "content": data[4], "edit": data[5]}
 
         return Response(True, res, "")
     except Exception as err:

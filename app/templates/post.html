@@ -15,7 +15,13 @@
         {{title}}
       </h1>
       <p>By {{author}}</p>
-      <small>{{date}}</small>
+      <small>
+        {% if date != edit %}
+        {{date}} (Edited: {{edit}})
+        {% else %}
+        {{date}}
+        {% endif %}
+      </small>
       <br>
       <br>
       <p>{{content}}</p>

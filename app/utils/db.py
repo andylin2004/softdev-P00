@@ -50,28 +50,45 @@ def getUserByUsername(username):
 # BLOG MANAGEMENT
 
 def search(searchQuery):
-    q = "%"+searchQuery+"%"
-    c.execute("SELECT * FROM blogs WHERE title LIKE ? OR author LIKE ? ORDER by date DESC", (q, q))
-    data = c.fetchall()
-    return data
+    try:
+        q = "%"+searchQuery+"%"
+        c.execute("SELECT * FROM blogs WHERE title LIKE ? OR author LIKE ? ORDER by date DESC", (q, q))
+        data = c.fetchall()
+        return Response(True, data, "")
+    except Exception as err:
+        return Response(False, None, err)
 
 def pullUserData(userID):
-    c.execute("SELECT * FROM blogs WHERE author IS ? ORDER by date DESC", (userID,))
-    data = c.fetchall()
-    return data
+    try:
+        c.execute("SELECT * FROM blogs WHERE author IS ? ORDER by date DESC", (userID,))
+        data = c.fetchall()
+        return Response(True, data, "")
+    except Exception as err:
+        return Response(False, None, err)
 
 def createBlogPost(title, content, userID):
-    c.execute("INSERT INTO blogs (author, date, title, content, edit) VALUES (:userID, (SELECT DATETIME('now')), :title, :content, 0)", {'userID': userID, 'title': title, 'content': content})
-    db.commit()
+    try:
+        c.execute("INSERT INTO blogs (author, date, title, content, edit) VALUES (:userID, (SELECT DATETIME('now')), :title, :content, 0)", {'userID': userID, 'title': title, 'content': content})
+        db.commit()
+        return Response(True, None, "")
+    except Exception as err:
+        return Response(False, None, err)
 
 def loadHomePage():
-    c.execute("SELECT * FROM blogs ORDER BY date DESC")
-    data = c.fetchall()
-    return data
+    try:
+        c.execute("SELECT * FROM blogs ORDER BY date DESC")
+        data = c.fetchall()
+        return Response(True, data, "")
+    except Exception as err:
+        return Response(False, None, err)
 
 def editBlogPost(id, title, content, userID):
-    c.execute("UPDATE blogs SET title =?, content =?, edit = (SELECT DATETIME('now')) WHERE id = ?", (title, content, id))
-    db.commit()
+    try:
+        c.execute("UPDATE blogs SET title =?, content =?, edit = (SELECT DATETIME('now')) WHERE id = ?", (title, content, id))
+        db.commit()
+        return Response(True, None, "")
+    except Exception as err:
+        return Response(False, None, err)
 
 def getPostByID(id):
     try:
@@ -85,6 +102,9 @@ def getPostByID(id):
         return Response(False, None, err)
 
 def loadEdit(id):
-    c.execute("SELECT * FROM blogs WHERE id is ?", (id))
-    data = c.fetchone()
-    return data
+    try:
+        c.execute("SELECT * FROM blogs WHERE id is ?", (id))
+        data = c.fetchone()
+        return Response(True, data, "")
+    except Exception as err:
+        return Response(False, None, err)

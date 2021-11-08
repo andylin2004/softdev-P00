@@ -130,5 +130,5 @@ dmypy.json
 *.DS_Store
 *.db
 database.db
-app/database.db
+app/database.db*
 *.nfs*

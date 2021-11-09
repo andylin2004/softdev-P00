@@ -16,7 +16,7 @@ def disp_loginpage():
     '''If user is logged in, then returns the home page. Otherwise, render login page.'''
     currentUser = auth.currentUser().payload
 
-    if currentUser:
+    if currentUser: #Checks if user is logged in
         return render_template('homePage.html', blogs=loadHomePage())
 
     return render_template( 'login.html' ) # Render the login template
@@ -54,28 +54,28 @@ def register():
 @app.route("/editBlog/<string:id>", methods = ['GET', 'POST'])
 def editBlog(id):
     '''If this is a get request (press the edit blog link for a blog post), then will return a page where you can change blog post contents. If this is a post request (user presses button to update a blog post), then edits will be applied to the blog post.'''
-    blog = loadEdit(id)
+    blog = loadEdit(id) #finds the post id and fetches the corresponding blog list.
     if request.method == "GET":
-        return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4])
+        return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4]) #renders each blog with specific blog elements
     elif request.method == "POST":
         userID = dict(auth.currentUser().payload)["username"]
         title = request.values['title']
         content = request.values['contents']
-        editBlogPost(id, title, content, userID)
+        editBlogPost(id, title, content, userID) #calls database function to update post
         return redirect("/myBlog")
 
 @app.route("/deleteBlog/<string:id>", methods = ['GET'])
 def deleteBlog(id):
     '''Deletes an existing blog post.'''
     if request.method == "GET":
-        deleteBlogPost(id)
+        deleteBlogPost(id) #finds post id in database and deletes it.
         return redirect("/myBlog")
 
 @app.route("/myBlog")
 def myBlog():
     '''Loads in all blog posts you have made.'''
     userID = dict(auth.currentUser().payload)["username"]
-    return render_template('myBlog.html', blogs=pullUserData(userID))
+    return render_template('myBlog.html', blogs=pullUserData(userID)) #finds userID and loads blog dictionary with userID
 
 @app.route("/search", methods = ['GET', 'POST'])
 def loadSearchResult():

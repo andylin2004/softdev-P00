@@ -110,3 +110,8 @@ andyL -- 2021-11-08 09:20
 raymondY -- 2021-11-09 09:06
 -fixed edit so it doesn't show when not Edited
 -some comments
+
+andyL -- 2021-11-09 09:26
+
+-changed add blog post and edit blog post sites with a bigger and resizable text box.
+-added docstrings to __init__.py functions

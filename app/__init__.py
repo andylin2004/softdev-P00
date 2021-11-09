@@ -16,7 +16,7 @@ def disp_loginpage():
     currentUser = auth.currentUser().payload
 
     if currentUser:
-        return render_template('homePage.html', blogs=loadHomePage())
+        return render_template('homePage.html', blogs=loadHomePage().payload)
 
     return render_template( 'login.html' ) # Render the login template
 
@@ -27,7 +27,7 @@ def authenticate():
     # data from both requests.args and requests.form.
 
     if request.method == "GET": #for when you refresh the website
-        return disp_loginpage()
+        return redirect("/")
     else: #when you log in from /
         username = request.values['username']
         password = request.values['password']
@@ -45,25 +45,43 @@ def register():
         username = request.values['username']
         displayName = request.values['displayName']
         password = request.values['password']
-        auth.register(username, displayName, password) #Appends user info to a database
-        return redirect("/login") #After registering, brings you to login
+
+        registerResponse = auth.register(username, displayName, password) #Appends user info to a database
+
+        if (registerResponse.success):
+            return redirect("/login") #After registering, brings you to login
+        else:
+            return render_template('register.html', errorMessage = registerResponse.errorMessage)
 
 @app.route("/editBlog/<string:id>", methods = ['GET', 'POST'])
 def editBlog(id):
-    blog = loadEdit(id)
-    if request.method == "GET":
-        return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4])
-    elif request.method == "POST":
-        userID = dict(auth.currentUser().payload)["username"]
-        title = request.values['title']
-        content = request.values['contents']
-        editBlogPost(id, title, content, userID)
-        return redirect("/myBlog")
+    loadEditResponse = loadEdit(id)
+
+    if (loadEditResponse.success):
+        blog = loadEditResponse.payload
+        if request.method == "GET":
+            return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4])
+        elif request.method == "POST":
+            userID = dict(auth.currentUser().payload)["username"]
+            title = request.values['title']
+            content = request.values['contents']
+            editBlogPost(id, title, content, userID)
+
+    return redirect("/myBlog")
 
 @app.route("/myBlog")
 def myBlog():
-    userID = dict(auth.currentUser().payload)["username"]
-    return render_template('myBlog.html', blogs=pullUserData(userID))
+    currentUserResponse = auth.currentUser()
+
+    if (currentUserResponse.success):
+        userID = dict(currentUserResponse.payload)["username"]
+
+        pullUserDataResponse = pullUserData(userID)
+
+        if (pullUserDataResponse.success):
+            return render_template('myBlog.html', blogs=pullUserDataResponse.payload)
+
+    return redirect("/login")
 
 @app.route("/search", methods = ['GET', 'POST'])
 def loadSearchResult():
@@ -71,10 +89,13 @@ def loadSearchResult():
         return render_template('search.html')
     elif request.method == "POST":
         query = request.values['query']
-        result = search(query)
-        return render_template('search.html', query = query, blogs = result)
 
-@app.route("/post/<int:id>")
+        searchResponse = search(query)
+
+        if (searchResponse.success):
+            return render_template('search.html', query = query, blogs = searchResponse.payload)
+
+@app.route("/post/<string:id>")
 def viewPost(id):
     postDataResponse = getPostByID(id)
     if (postDataResponse.success):
@@ -91,8 +112,12 @@ def createPost():
         title = request.values['title']
         contents = request.values['contents']
         userID = dict(auth.currentUser().payload)["username"] #Finds the userID from database
-        createBlogPost(title, contents, userID) #Appends values into database.
-        return redirect("/myBlog")
+        createBlogPostResponse = createBlogPost(title, contents, userID) #Appends values into database.
+
+        if (createBlogPostResponse.success):
+            return redirect("/myBlog")
+        else:
+            return render_template('createPosts.html') ## Add error message
 
 @app.route("/logout")
 def logout():

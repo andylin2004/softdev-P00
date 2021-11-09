@@ -33,6 +33,7 @@ def addUser(username, displayName, password):
     try:
         c.execute("INSERT INTO users (username, displayName, password) VALUES(? , ?, ?)", (username, displayName, password))
         db.commit()
+        return Response(True, None, "")
     except Exception as err:
         return Response(False, None, err)
 

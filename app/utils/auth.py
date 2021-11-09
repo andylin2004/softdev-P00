@@ -43,13 +43,14 @@ class AuthService:
 
     def register(self, username, displayName, password):
         hashedPw = generate_password_hash(password)
-        addUser(username, displayName, hashedPw)
-        return Response(True, True, "")
+        addUserResponse =  addUser(username, displayName, hashedPw)
+
+        return Response(addUserResponse.success, addUserResponse.success, "")
 
     def logout(self):
         if session.get("sessionID"):
-            if session.get("sessionID") in activeUsers:
-                activeUsers.pop(session.get("sessionID"))
-                
+            if session.get("sessionID") in self.activeUsers:
+                self.activeUsers.pop(session.get("sessionID"))
+
             session.pop("sessionID")
         return Response(True, True, "")

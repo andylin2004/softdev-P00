@@ -107,4 +107,6 @@ andyL -- 2021-11-08 09:20
 -fixed issue where search did not work (related to wildcard thing I was working on)
 -started to migrate code to the new try catch architecture
 
-raymondY -- 2021-11-09 9:
+raymondY -- 2021-11-09 09:06
+-fixed edit so it doesn't show when not Edited
+-some comments

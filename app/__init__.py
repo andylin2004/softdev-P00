@@ -13,6 +13,7 @@ auth = AuthService()
 
 @app.route("/")
 def disp_loginpage():
+    '''If user is logged in, then returns the home page. Otherwise, render login page.'''
     currentUser = auth.currentUser().payload
 
     if currentUser:
@@ -23,8 +24,9 @@ def disp_loginpage():
 
 @app.route("/login", methods=['GET', 'POST'])
 def authenticate():
-    # The requests property contains the values property. The value property contains
-    # data from both requests.args and requests.form.
+    '''If user does a get request, then return the login page. If it is a post request aka user logs in from login page, then check user credentials and will log in or deny based on provided credentials.
+    The requests property contains the values property.
+    The value property contains data from both requests.args and requests.form.'''
 
     if request.method == "GET": #for when you refresh the website
         return disp_loginpage()
@@ -39,6 +41,7 @@ def authenticate():
 
 @app.route("/signup", methods=['GET', 'POST'])
 def register():
+    '''If user does a get request (presses signup link from login page), then return registration page. Otherwise, creates a new user and add it to database for future authentication uses.'''
     if request.method == "GET":
         return render_template('register.html')
     elif request.method == "POST":  #Takes values entered by user via request.values
@@ -50,6 +53,7 @@ def register():
 
 @app.route("/editBlog/<string:id>", methods = ['GET', 'POST'])
 def editBlog(id):
+    '''If this is a get request (press the edit blog link for a blog post), then will return a page where you can change blog post contents. If this is a post request (user presses button to update a blog post), then edits will be applied to the blog post.'''
     blog = loadEdit(id)
     if request.method == "GET":
         return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4])
@@ -62,17 +66,20 @@ def editBlog(id):
 
 @app.route("/deleteBlog/<string:id>", methods = ['GET'])
 def deleteBlog(id):
+    '''Deletes an existing blog post.'''
     if request.method == "GET":
         deleteBlogPost(id)
         return redirect("/myBlog")
 
 @app.route("/myBlog")
 def myBlog():
+    '''Loads in all blog posts you have made.'''
     userID = dict(auth.currentUser().payload)["username"]
     return render_template('myBlog.html', blogs=pullUserData(userID))
 
 @app.route("/search", methods = ['GET', 'POST'])
 def loadSearchResult():
+    '''Loads in the search result for a query. If search is refreshed, then it just shows a search box.'''
     if request.method == "GET":
         return render_template('search.html')
     elif request.method == "POST":
@@ -82,6 +89,7 @@ def loadSearchResult():
 
 @app.route("/post/<int:id>")
 def viewPost(id):
+    '''Loads in the blog post using an unique ID. If error, then function returns the error.'''
     postDataResponse = getPostByID(id)
     if (postDataResponse.success):
         data = postDataResponse.payload
@@ -91,6 +99,7 @@ def viewPost(id):
 
 @app.route("/createPosts", methods =['GET', 'POST'])
 def createPost():
+    '''The get function will return the site to create a blog post. The post function will authenticate the user and push the new blog post to the database.'''
     if request.method == "GET":
         return render_template('createPosts.html')
     elif request.method == "POST": #When user submits, the values from the request are taken
@@ -102,6 +111,7 @@ def createPost():
 
 @app.route("/logout")
 def logout():
+    '''Logs currently logged in user out of session.'''
     auth.logout() #function to logout
     return redirect("/") #redirect to login page
 

@@ -61,7 +61,7 @@ def pullUserData(userID):
     return data
 
 def createBlogPost(title, content, userID):
-    c.execute("INSERT INTO blogs (author, date, title, content, edit) VALUES (:userID, (SELECT DATETIME('now')), :title, :content, 0)", {'userID': userID, 'title': title, 'content': content})
+    c.execute("INSERT INTO blogs (author, date, title, content, edit) VALUES (:userID, (SELECT DATETIME('now')), :title, :content, (SELECT DATETIME('now')))", {'userID': userID, 'title': title, 'content': content})
     db.commit()
 
 def loadHomePage():
@@ -93,7 +93,7 @@ def deleteBlogPost(id):
     try:
         c.execute("DELETE FROM blogs WHERE id is ?", (id))
         db.commit()
-        
+
         return Response(True, None, "")
     except Exception as err:
         return Response(False, None, err)

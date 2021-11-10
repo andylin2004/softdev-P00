@@ -14,10 +14,17 @@ auth = AuthService()
 @app.route("/")
 def disp_loginpage():
     '''If user is logged in, then returns the home page. Otherwise, render login page.'''
-    currentUser = auth.currentUser().payload
+    currentUserResponse = auth.currentUser()
 
-    if currentUser: #Checks if user is logged in
-        return render_template('homePage.html', blogs=loadHomePage())
+    if currentUserResponse.success:
+        currentUser = currentUserResponse.payload
+
+        if currentUser: #Checks if user is logged in
+            loadHomePageResponse = loadHomePage()
+            if loadHomePageResponse.success:
+                return render_template('homePage.html', blogs=loadHomePageResponse.payload)
+            else:
+                return render_template('homePage.html', blogs=None) # TODO: Add error handling
 
     return render_template( 'login.html' ) # Render the login template
 
@@ -29,7 +36,7 @@ def authenticate():
     The value property contains data from both requests.args and requests.form.'''
 
     if request.method == "GET": #for when you refresh the website
-        return disp_loginpage()
+        return redirect('/')
     else: #when you log in from /
         username = request.values['username']
         password = request.values['password']
@@ -48,34 +55,69 @@ def register():
         username = request.values['username']
         displayName = request.values['displayName']
         password = request.values['password']
-        auth.register(username, displayName, password) #Appends user info to a database
-        return redirect("/login") #After registering, brings you to login
+
+        registerResponse = auth.register(username, displayName, password) #Appends user info to a database
+
+        if registerResponse.success:
+            return redirect("/login") #After registering, brings you to login
+        else:
+            return render_template('register.html') 
 
 @app.route("/editBlog/<string:id>", methods = ['GET', 'POST'])
 def editBlog(id):
     '''If this is a get request (press the edit blog link for a blog post), then will return a page where you can change blog post contents. If this is a post request (user presses button to update a blog post), then edits will be applied to the blog post.'''
-    blog = loadEdit(id) #finds the post id and fetches the corresponding blog list.
+        
     if request.method == "GET":
-        return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4]) #renders each blog with specific blog elements
+        loadEditResponse = loadEdit(id) #finds the post id and fetches the corresponding blog list.
+        
+        if loadEditResponse.success:
+            blog = loadEditResponse.payload
+            return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4]) #renders each blog with specific blog elements
+        else:
+            return render_template('editBlog.html', id = id, postTitle = "", postContent = "") # TODO: Replace with error message WE need an error not found
     elif request.method == "POST":
-        userID = dict(auth.currentUser().payload)["username"]
-        title = request.values['title']
-        content = request.values['contents']
-        editBlogPost(id, title, content, userID) #calls database function to update post
-        return redirect("/myBlog")
+        currentUserResponse = auth.currentUser()
 
-@app.route("/deleteBlog/<string:id>", methods = ['GET'])
+        if currentUserResponse.payload:
+            userID = dict(currentUserResponse.payload)["username"]
+            title = request.values['title']
+            content = request.values['contents']
+            
+            editBlogPostResponse = editBlogPost(id, title, content, userID) #calls database function to update post
+            
+            if editBlogPostResponse.success:
+                return redirect("/myBlog")
+            else:
+                return render_template('editBlog.html', id = id, postTitle = "", postContent = "") # TODO: Replace with error message 
+        else:
+            return redirect("/login")
+
+@app.route("/deleteBlog/<string:id>", methods = ['GET']) # TODO: MAKE SURE ONLY CREATOR CAN DELETE
 def deleteBlog(id):
     '''Deletes an existing blog post.'''
     if request.method == "GET":
-        deleteBlogPost(id) #finds post id in database and deletes it.
-        return redirect("/myBlog")
+        deleteBlogPostResponse = deleteBlogPost(id)
+
+        if deleteBlogPostResponse.success: #finds post id in database and deletes it.
+            return redirect("/myBlog")
+        else:
+            return redirect("/myBlog") # TODO: Add error message
 
 @app.route("/myBlog")
 def myBlog():
     '''Loads in all blog posts you have made.'''
-    userID = dict(auth.currentUser().payload)["username"]
-    return render_template('myBlog.html', blogs=pullUserData(userID)) #finds userID and loads blog dictionary with userID
+    currentUserResponse = auth.currentUser()
+    
+    if currentUserResponse.success:
+        userID = dict(currentUserResponse.payload)["username"]
+        pullUserDataResponse = pullUserData(userID)
+
+        if pullUserDataResponse.success:
+            return render_template('myBlog.html', blogs=pullUserDataResponse.payload) #finds userID and loads blog dictionary with userID
+        else:
+            return render_template('myBlog.html', blogs=None) #TODO: Add ERROR MESSAGE
+    else:
+        return redirect('/login')
 
 @app.route("/search", methods = ['GET', 'POST'])
 def loadSearchResult():
@@ -84,8 +126,14 @@ def loadSearchResult():
         return render_template('search.html')
     elif request.method == "POST":
         query = request.values['query']
-        result = search(query)
-        return render_template('search.html', query = query, blogs = result)
+
+        searchResponse = search(query)
+        
+        if searchResponse.success:
+            result = searchResponse.payload
+            return render_template('search.html', query = query, blogs = result)
+        else:
+            return render_template('search.html')
 
 @app.route("/post/<int:id>")
 def viewPost(id):
@@ -105,9 +153,20 @@ def createPost():
     elif request.method == "POST": #When user submits, the values from the request are taken
         title = request.values['title']
         contents = request.values['contents']
-        userID = dict(auth.currentUser().payload)["username"] #Finds the userID from database
-        createBlogPost(title, contents, userID) #Appends values into database.
-        return redirect("/myBlog")
+
+        currentUserResponse = auth.currentUser()
+
+        if currentUserResponse.success:
+            userID = dict(currentUserResponse.payload)["username"] #Finds the userID from database
+            
+            createBlogPostResponse = createBlogPost(title, contents, userID) #Appends values into database.
+            
+            if createBlogPostResponse.success:
+                return redirect("/myBlog")
+            else:
+                return render_template('createPosts.html') #TODO: Error message
+        else:
+            return redirect("/login")
 
 @app.route("/logout")
 def logout():

@@ -13,43 +13,63 @@ class AuthService:
         initializeUsersTable()
 
     def currentUser(self):
-        if "sessionID" in session:
-            sessionID = session.get("sessionID")
-            username = self.activeUsers[sessionID]
+        try:
+            if "sessionID" in session:
+                sessionID = session.get("sessionID")
+                username = self.activeUsers[sessionID]
 
+                userDataResponse = getUserByUsername(username)
+
+                if (userDataResponse.success):
+                    userData = userDataResponse.payload
+                    return Response(True, userData, "")
+                else:
+                    Response(True, None, "")
+            return Response(False, None, "")
+        except Exception as err:
+            return Response(False, None, err)
+
+    def login(self, username, password):
+        try:
             userDataResponse = getUserByUsername(username)
 
             if (userDataResponse.success):
                 userData = userDataResponse.payload
-                return Response(True, userData, "")
-            else:
-                Response(True, None, "")
-        return Response(False, None, "")
+                if userData and username == userData["username"]:
+                    if check_password_hash(userData["password"], password):
+                        sessionID = urandom(32)
+                        session["sessionID"] = sessionID
+                        self.activeUsers[sessionID] = username
 
-    def login(self, username, password):
-        userDataResponse = getUserByUsername(username)
+                        return Response(True, True, "")
 
-        if (userDataResponse.success):
-            userData = userDataResponse.payload
-            if userData and username == userData["username"]:
-                if check_password_hash(userData["password"], password):
-                    sessionID = urandom(32)
-                    session["sessionID"] = sessionID
-                    self.activeUsers[sessionID] = username
-
-                    return Response(True, True, "")
-
-        return Response(False, False, "")
+            return Response(False, False, "")
+        except Exception as err:
+            return Response(False, None, err)
 
     def register(self, username, displayName, password):
-        hashedPw = generate_password_hash(password)
-        addUser(username, displayName, hashedPw)
-        return Response(True, True, "")
+        try:
+            hashedPw = generate_password_hash(password)
+            
+            addUserResponse = addUser(username, displayName, hashedPw)
+
+            if addUserResponse.success:
+                return Response(True, True, "")
+            else:
+                return Response(False, None, addUserResponse.errorMessage)
+
+        except Exception as err:
+            return Response(False, None, err)
 
     def logout(self):
-        if session.get("sessionID"):
-            if session.get("sessionID") in self.activeUsers:
-                self.activeUsers.pop(session.get("sessionID"))
-                
-            session.pop("sessionID")
-        return Response(True, True, "")
+        try:
+            if session.get("sessionID"):
+                if session.get("sessionID") in self.activeUsers:
+                    self.activeUsers.pop(session.get("sessionID"))
+                    
+                session.pop("sessionID")
+
+            return Response(True, True, "")
+            
+        except Exception as err:
+            return Response(False, None, err)

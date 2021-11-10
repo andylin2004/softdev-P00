@@ -115,3 +115,9 @@ andyL -- 2021-11-09 09:26
 
 -changed add blog post and edit blog post sites with a bigger and resizable text box.
 -added docstrings to __init__.py functions
+
+andyL -- 2021-11-09 09:26
+
+-refactored to use try catch for error handling
+-started refactoring code for better readability
+-left comments with how to improve code

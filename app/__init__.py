@@ -96,12 +96,16 @@ def editBlog(id):
 def deleteBlog(id):
     '''Deletes an existing blog post.'''
     if request.method == "GET":
-        deleteBlogPostResponse = deleteBlogPost(id)
+        currentUserResponse = auth.currentUser()
 
-        if deleteBlogPostResponse.success: #finds post id in database and deletes it.
-            return redirect("/myBlog")
-        else:
-            return redirect("/myBlog") # TODO: Add error message
+        if currentUserResponse.payload:
+            userID = dict(currentUserResponse.payload)["username"]
+            deleteBlogPostResponse = deleteBlogPost(id, userID)
+
+            if deleteBlogPostResponse.success: #finds post id in database and deletes it.
+                return redirect("/myBlog")
+            else:
+                return redirect("/myBlog") # TODO: Add error message
 
 @app.route("/myBlog")
 def myBlog():

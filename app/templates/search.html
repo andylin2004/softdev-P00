@@ -17,7 +17,6 @@
         </h1>
         <h3>
             <form action="/search" method="POST">
-                <input type="text" name="query" value = "{{ query }}">
                 <label for="options">Search By:</label>
                 <select name = "options" id = "options">
                   <option value ="author">Author</option>
@@ -25,6 +24,7 @@
                   <option value ="content">Content</option>
                 </select>
                 <br>
+                <input type="text" name="query" value = "{{ query }}">
                 <input type = "submit" name = "search" value = "Search">
             </form>
         </h3>

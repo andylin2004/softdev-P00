@@ -58,7 +58,7 @@ def search(searchQuery, option):
             c.execute("SELECT * FROM blogs WHERE " + option + " LIKE ? ORDER by date DESC", (q,))
             data = c.fetchall()
         else:
-            return Response(False, None, err)
+            return Response(False, None, "Not found as an option")
         return Response(True, data, "") # TODO: Maybe pass a dictionary instead?
     except Exception as err:
         return Response(False, None, err)

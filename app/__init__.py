@@ -11,6 +11,10 @@ app = Flask(__name__)
 
 auth = AuthService()
 
+def checkForSession():
+    if auth.currentUser().success == False:
+        return redirect("/")
+
 @app.route("/")
 def disp_loginpage():
     '''If user is logged in, then returns the home page. Otherwise, render login page.'''
@@ -67,7 +71,7 @@ def register():
 def editBlog(id):
     '''If this is a get request (press the edit blog link for a blog post), then will return a page where you can change blog post contents. If this is a post request (user presses button to update a blog post), then edits will be applied to the blog post.'''
     
-    authenticate()
+    auth.currentUser()
     if request.method == "GET":
         loadEditResponse = loadEdit(id) #finds the post id and fetches the corresponding blog list.
         
@@ -96,7 +100,7 @@ def editBlog(id):
 @app.route("/deleteBlog/<string:id>", methods = ['GET']) # TODO: MAKE SURE ONLY CREATOR CAN DELETE
 def deleteBlog(id):
     '''Deletes an existing blog post.'''
-    authenticate()
+    checkForSession()
     if request.method == "GET":
         currentUserResponse = auth.currentUser()
 
@@ -112,7 +116,7 @@ def deleteBlog(id):
 @app.route("/myBlog")
 def myBlog():
     '''Loads in all blog posts you have made.'''
-    authenticate()
+    checkForSession()
     currentUserResponse = auth.currentUser()
     
     if currentUserResponse.success:
@@ -129,7 +133,7 @@ def myBlog():
 @app.route("/search", methods = ['GET', 'POST'])
 def loadSearchResult():
     '''Loads in the search result for a query. If search is refreshed, then it just shows a search box.'''
-    authenticate()
+    checkForSession()
     if request.method == "GET":
         return render_template('search.html')
     elif request.method == "POST":
@@ -146,7 +150,7 @@ def loadSearchResult():
 @app.route("/post/<int:id>")
 def viewPost(id):
     '''Loads in the blog post using an unique ID. If error, then function returns the error.'''
-    authenticate()
+    checkForSession()
     postDataResponse = getPostByID(id)
     if (postDataResponse.success):
         data = postDataResponse.payload
@@ -157,7 +161,7 @@ def viewPost(id):
 @app.route("/createPosts", methods =['GET', 'POST'])
 def createPost():
     '''The get function will return the site to create a blog post. The post function will authenticate the user and push the new blog post to the database.'''
-    authenticate()
+    checkForSession()
     if request.method == "GET":
         return render_template('createPosts.html')
     elif request.method == "POST": #When user submits, the values from the request are taken

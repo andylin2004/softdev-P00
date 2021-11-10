@@ -114,7 +114,7 @@ def myBlog():
     
     if currentUserResponse.success:
         userID = dict(currentUserResponse.payload)["username"]
-        pullUserDataResponse = pullUserData(userID)
+        pullUserDataResponse = getAllBlogPostsByUser(userID)
 
         if pullUserDataResponse.success:
             return render_template('myBlog.html', blogs=pullUserDataResponse.payload) #finds userID and loads blog dictionary with userID

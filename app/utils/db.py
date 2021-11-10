@@ -88,12 +88,17 @@ def loadHomePage():
         return Response(False, None, err)
 
 def editBlogPost(id, title, content, userID):
-    try:
-        c.execute("UPDATE blogs SET title =?, content =?, edit = (SELECT DATETIME('now')) WHERE id = ?", (title, content, id))
-        db.commit()
-        return Response(True, None, "")
-    except Exception as err:
-        return Response(False, None, err)
+    c.execute("SELECT author FROM blogs WHERE id is ?", (id))
+    data = c.fetchone()
+    if (data[0] == userID):
+        try:
+            c.execute("UPDATE blogs SET title =?, content =?, edit = (SELECT DATETIME('now')) WHERE id = ?", (title, content, id))
+            db.commit()
+            return Response(True, None, "")
+        except Exception as err:
+            return Response(False, None, err)
+    else:
+        return Response(False, None, "You do not have the permissions to edit this post.")
 
 def getPostByID(id):
     try:
@@ -114,11 +119,16 @@ def loadEdit(id):
     except Exception as err:
         return Response(False, None, err)
 
-def deleteBlogPost(id):
-    try:
-        c.execute("DELETE FROM blogs WHERE id is ?", (id))
-        db.commit()
+def deleteBlogPost(id, username):
+    c.execute("SELECT author FROM blogs WHERE id is ?", (id))
+    data = c.fetchone()
+    if (data[0] == username):
+        try:
+            c.execute("DELETE FROM blogs WHERE id is ?", (id))
+            db.commit()
 
-        return Response(True, None, "")
-    except Exception as err:
-        return Response(False, None, err)
+            return Response(True, None, "")
+        except Exception as err:
+            return Response(False, None, err)
+    else:
+        return Response(False, None, "You do not have the permissions to delete the post.")

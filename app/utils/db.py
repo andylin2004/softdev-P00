@@ -51,11 +51,14 @@ def getUserByUsername(username):
 
 # BLOG MANAGEMENT
 
-def search(searchQuery):
+def search(searchQuery, option):
     try:
         q = "%"+searchQuery+"%"
-        c.execute("SELECT * FROM blogs WHERE title LIKE ? OR author LIKE ? ORDER by date DESC", (q, q))
-        data = c.fetchall()
+        if option == "author" or option == "title" or option == "content":
+            c.execute("SELECT * FROM blogs WHERE " + option + " LIKE ? ORDER by date DESC", (q,))
+            data = c.fetchall()
+        else:
+            return Response(False, None, err)
         return Response(True, data, "") # TODO: Maybe pass a dictionary instead?
     except Exception as err:
         return Response(False, None, err)

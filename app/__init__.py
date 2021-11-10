@@ -138,8 +138,9 @@ def loadSearchResult():
         return render_template('search.html')
     elif request.method == "POST":
         query = request.values['query']
+        searchType = request.values['options']
 
-        searchResponse = search(query)
+        searchResponse = search(query, searchType)
         
         if searchResponse.success:
             result = searchResponse.payload

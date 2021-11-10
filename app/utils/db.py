@@ -30,6 +30,7 @@ def initializeDatabase():
 
 # AUTH
 def addUser(username, displayName, password):
+    '''Creates a user account based on a username, display name, and password.'''
     try:
         c.execute("INSERT INTO users (username, displayName, password) VALUES(? , ?, ?)", (username, displayName, password))
         db.commit()
@@ -39,6 +40,7 @@ def addUser(username, displayName, password):
         return Response(False, None, err)
 
 def getUserByUsername(username):
+    '''Gets user credentials based on a username.'''
     try:
         c.execute("SELECT * FROM users WHERE username = ?", (username,))
         data = c.fetchone()
@@ -52,6 +54,7 @@ def getUserByUsername(username):
 # BLOG MANAGEMENT
 
 def search(searchQuery):
+    '''Searches the blog table in database based on a search query.'''
     try:
         q = "%"+searchQuery+"%"
         c.execute("SELECT * FROM blogs WHERE title LIKE ? OR author LIKE ? ORDER by date DESC", (q, q))
@@ -60,7 +63,8 @@ def search(searchQuery):
     except Exception as err:
         return Response(False, None, err)
 
-def pullUserData(userID):
+def getAllBlogPostsByUser(userID):
+    '''Returns all blog posts by a user based on a userID'''
     try:
         c.execute("SELECT * FROM blogs WHERE author IS ? ORDER by date DESC", (userID,))
         data = c.fetchall()
@@ -69,6 +73,7 @@ def pullUserData(userID):
         return Response(False, None, err)
 
 def createBlogPost(title, content, userID):
+    '''Adds a blog post into the blogs table in database with title, contents, and author information.'''
     try:
         c.execute("INSERT INTO blogs (author, date, title, content, edit) VALUES (:userID, (SELECT DATETIME('now')), :title, :content, (SELECT DATETIME('now')))", {'userID': userID, 'title': title, 'content': content})
         db.commit()
@@ -77,6 +82,7 @@ def createBlogPost(title, content, userID):
         return Response(False, None, err)
 
 def loadHomePage():
+    '''Function to load all blog posts (for the home page).'''
     try:
         c.execute("SELECT * FROM blogs ORDER BY date DESC")
         data = c.fetchall()
@@ -85,6 +91,7 @@ def loadHomePage():
         return Response(False, None, err)
 
 def editBlogPost(id, title, content, userID):
+    '''Edits a blog post in blog table in database (change title and content of blog post), given that the userID is the author of the original blog post. Throws an error if the user is not the author.'''
     c.execute("SELECT author FROM blogs WHERE id is ?", (id))
     data = c.fetchone()
     if (data[0] == userID):
@@ -98,6 +105,7 @@ def editBlogPost(id, title, content, userID):
         return Response(False, None, "You do not have the permissions to edit this post.")
 
 def getPostByID(id):
+    '''Gets the blog post by blog post ID.'''
     try:
         c.execute("SELECT * FROM blogs WHERE id = ?", (id,))
         data = c.fetchone()
@@ -109,6 +117,7 @@ def getPostByID(id):
         return Response(False, None, err)
 
 def loadEdit(id):
+    '''Gets the blog post by blog post ID in order to be loaded in for editing use.'''
     try:
         c.execute("SELECT * FROM blogs WHERE id is ?", (id))
         data = c.fetchone()
@@ -117,6 +126,7 @@ def loadEdit(id):
         return Response(False, None, err)
 
 def deleteBlogPost(id, username):
+    '''Deletes a blog post based on the blog post id, given that the user is the author of the blog post.'''
     c.execute("SELECT author FROM blogs WHERE id is ?", (id))
     data = c.fetchone()
     if (data[0] == username):

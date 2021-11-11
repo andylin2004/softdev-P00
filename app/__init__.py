@@ -27,7 +27,7 @@ def disp_loginpage():
             if loadHomePageResponse.success:
                 return render_template('homePage.html', blogs=loadHomePageResponse.payload)
             else:
-                return render_template('homePage.html', blogs=None) # TODO: Add error handling
+                return render_template('homePage.html', error = loadHomePageResponse.errorMessage)
 
     return render_template( 'login.html' ) # Render the login template
 
@@ -78,7 +78,7 @@ def editBlog(id):
             blog = loadEditResponse.payload
             return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4]) #renders each blog with specific blog elements
         else:
-            return render_template('editBlog.html', id = id, postTitle = "", postContent = "") # TODO: Replace with error message WE need an error not found
+            return render_template('editBlog.html', id = id, error = loadEditResponse.errorMessage)
     elif request.method == "POST":
         currentUserResponse = auth.currentUser()
 
@@ -92,11 +92,11 @@ def editBlog(id):
             if editBlogPostResponse.success:
                 return redirect("/myBlog")
             else:
-                return render_template('editBlog.html', id = id, postTitle = "", postContent = "") # TODO: Replace with error message 
+                return render_template('editBlog.html', id = id, error = editBlogPostResponse.errorMessage)
         else:
             return redirect("/login")
 
-@app.route("/deleteBlog/<string:id>", methods = ['GET']) # TODO: MAKE SURE ONLY CREATOR CAN DELETE
+@app.route("/deleteBlog/<string:id>", methods = ['GET'])
 def deleteBlog(id):
     '''Deletes an existing blog post.'''
     checkForSession()
@@ -110,9 +110,9 @@ def deleteBlog(id):
             if deleteBlogPostResponse.success: #finds post id in database and deletes it.
                 return redirect("/myBlog")
             else:
-                return redirect("/myBlog") # TODO: Add error message
+                return redirect("/myBlog", error = currentUserResponse.errorMessage)
 
-@app.route("/blog/<string:username>", methods = ['GET']) # TODO: MAKE SURE ONLY CREATOR CAN DELETE
+@app.route("/blog/<string:username>", methods = ['GET'])
 def loadBlogByUser(username):
     '''Returns all blog post by a user.'''
     checkForSession()
@@ -134,7 +134,7 @@ def myBlog():
         if pullUserDataResponse.success:
             return render_template('myBlog.html', blogs=pullUserDataResponse.payload) #finds userID and loads blog dictionary with userID
         else:
-            return render_template('myBlog.html', blogs=None) #TODO: Add ERROR MESSAGE
+            return render_template('myBlog.html', error = pullUserDataResponse.errorMessage)
     else:
         return redirect('/login')
 
@@ -195,7 +195,7 @@ def createPost():
             if createBlogPostResponse.success:
                 return redirect("/myBlog")
             else:
-                return render_template('createPosts.html') #TODO: Error message
+                return render_template('createPosts.html', error = createBlogPostResponse.errorMessage)
         else:
             return redirect("/login")
 

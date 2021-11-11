@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>{{ displayName }}'s Blog</title>
+        <link href ="../static/css/styles.css" rel ="stylesheet" type ="text/css">
+    </head>
+
+    <body>
+        <a href="/">Home</a>
+        <a href="/search">Search</a>
+        <a href="/myBlog">My Blog</a>
+        <a href="/createPosts">Create New Post</a>
+        <a href="/logout">Logout</a>
+        <h1>{{ displayName }}'s Blog</h1>
+        {% for blog in blogs %}
+        <hr>
+        <a href="/post/{{blog[0]}}"><h2>{{ blog[3] }}</h2></a>
+            {% if blog[5] != blog[2] %}
+            Posted: {{blog[2]}} (Edited: {{blog[5]}})
+            {% else %}
+            Posted: {{blog[2]}}
+            {% endif %}
+        {% endfor %}
+    </body>
+
+</html>

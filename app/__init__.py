@@ -118,8 +118,9 @@ def loadBlogByUser(username):
     '''Returns all blog post by a user.'''
     checkForSession()
     if request.method == 'GET':
-        posts = getAllBlogPostsByUser(username)
-        return username
+        posts = getAllBlogPostsByUser(username).payload
+        displayName = getUserByUsername(username).payload['displayName']
+        return render_template("blogList.html", displayName = displayName, blogs = posts)
 
 @app.route("/myBlog")
 def myBlog():
@@ -152,10 +153,8 @@ def loadSearchResult():
 
             if searchResponse.success:
                 result = searchResponse.payload
-                print(result)
                 return render_template('search.html', query = query, blogs = [], users = result)
             else:
-                print(searchResponse.errorMessage)
                 return render_template('search.html', blogs = [], users = [])
         else:
             searchResponse = searchPosts(query, searchType)

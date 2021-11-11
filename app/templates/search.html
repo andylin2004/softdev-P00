@@ -28,7 +28,7 @@
                 <input type = "submit" name = "search" value = "Search">
             </form>
         </h3>
-        {% if blogs != [] %}
+        {% if blogs %}
         <h1>Blog Posts</h1>
         {% endif %}
         {% for blog in blogs %}
@@ -37,7 +37,7 @@
         <br>
         <br>
         {% endfor %}
-        {% if users != [] %}
+        {% if users %}
         <h1>User Blogs</h1>
         {% endif %}
         {% for user in users %}

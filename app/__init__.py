@@ -153,17 +153,17 @@ def loadSearchResult():
 
             if searchResponse.success:
                 result = searchResponse.payload
-                return render_template('search.html', query = query, blogs = [], users = result)
+                return render_template('search.html', query = query, users = result)
             else:
-                return render_template('search.html', blogs = [], users = [])
+                return render_template('search.html')
         else:
             searchResponse = searchPosts(query, searchType)
             
             if searchResponse.success:
                 result = searchResponse.payload
-                return render_template('search.html', query = query, blogs = result, users = [])
+                return render_template('search.html', query = query, blogs = result)
             else:
-                return render_template('search.html', blogs = [], users = [])
+                return render_template('search.html')
 
 @app.route("/post/<int:id>")
 def viewPost(id):

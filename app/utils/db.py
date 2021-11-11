@@ -53,16 +53,26 @@ def getUserByUsername(username):
 
 # BLOG MANAGEMENT
     
-def search(searchQuery, option):
-    '''Searches the blog table in database based on a search query.'''
+def searchPosts(searchQuery, option):
+    '''Searches the blog table in database based on a search query and search option.'''
     try:
         q = "%"+searchQuery+"%"
-        if option == "author" or option == "title" or option == "content":
+        if option == "title" or option == "content":
             c.execute("SELECT * FROM blogs WHERE " + option + " LIKE ? ORDER by date DESC", (q,))
             data = c.fetchall()
         else:
             return Response(False, None, "Not found as an option")
         return Response(True, data, "") # TODO: Maybe pass a dictionary instead?
+    except Exception as err:
+        return Response(False, None, err)
+
+def searchUsers(searchQuery):
+    '''Searches the user table for the username searched. This will then be used to render each individual user's blog.'''
+    try:
+        q = "%"+searchQuery+"%"
+        c.execute("SELECT * FROM users WHERE username LIKE ? OR displayName LIKE ? ORDER BY displayName ASC", (q, q))
+        data = c.fetchall()
+        return Response(True, data, "")
     except Exception as err:
         return Response(False, None, err)
 

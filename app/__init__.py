@@ -113,6 +113,14 @@ def deleteBlog(id):
             else:
                 return redirect("/myBlog") # TODO: Add error message
 
+@app.route("/blog/<string:username>", methods = ['GET']) # TODO: MAKE SURE ONLY CREATOR CAN DELETE
+def loadBlogByUser(username):
+    '''Returns all blog post by a user.'''
+    checkForSession()
+    if request.method == 'GET':
+        posts = getAllBlogPostsByUser(username)
+        return username
+
 @app.route("/myBlog")
 def myBlog():
     '''Loads in all blog posts you have made.'''
@@ -139,14 +147,24 @@ def loadSearchResult():
     elif request.method == "POST":
         query = request.values['query']
         searchType = request.values['options']
+        if (searchType == "author"):
+            searchResponse = searchUsers(query)
 
-        searchResponse = search(query, searchType)
-        
-        if searchResponse.success:
-            result = searchResponse.payload
-            return render_template('search.html', query = query, blogs = result)
+            if searchResponse.success:
+                result = searchResponse.payload
+                print(result)
+                return render_template('search.html', query = query, blogs = [], users = result)
+            else:
+                print(searchResponse.errorMessage)
+                return render_template('search.html', blogs = [], users = [])
         else:
-            return render_template('search.html')
+            searchResponse = searchPosts(query, searchType)
+            
+            if searchResponse.success:
+                result = searchResponse.payload
+                return render_template('search.html', query = query, blogs = result, users = [])
+            else:
+                return render_template('search.html', blogs = [], users = [])
 
 @app.route("/post/<int:id>")
 def viewPost(id):

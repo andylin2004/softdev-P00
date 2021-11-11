@@ -15,6 +15,9 @@
         <h1>
           Home Page
         </h1>
+        {% if error %}
+        <h2 style="color: red;">Error: {{error}}</h2>
+        {% endif %}
         <h3>
             <form action="/search" method="POST">
               <label for="options">Search By:</label>

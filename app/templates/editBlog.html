@@ -13,8 +13,11 @@
       <a href="/createPosts">Create New Post</a>
       <a href="/logout">Logout</a>
         <h1>
-          Edit
+          Edit Blog Post
         </h1>
+        {% if error %}
+        <h2 style="color: red;">Error: {{error}}</h2>
+        {% endif %}
         <form action="/editBlog/{{id}}" method="POST">
             Title:
             <br>

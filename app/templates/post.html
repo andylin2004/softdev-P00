@@ -30,7 +30,11 @@
       <br>
       <p>{{content}}</p>
       {% else %}
+      {% if error %}
+      <h2 style="color: red;">Error: {{error}}</h2>
+      {% else %}
         <p>Not found</p>
+      {% endif %}
       {% endif %}
     </body>
 </html>

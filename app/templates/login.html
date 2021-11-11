@@ -11,7 +11,9 @@
       Welcome to login page!
     </h1>
 
-
+    {% if error %}
+    <h2 style="color: red;">Error: {{error}}</h2>
+    {% endif %}
     <h3>
       Enter your username below to proceed.
     </h3>
@@ -24,7 +26,6 @@
       <br>
       <input type="submit" name="sub1" value="Login">
       <br>
-      {{error}}
       <a href="/signup">Register</a>
     </form>
     <br>

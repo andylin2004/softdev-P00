@@ -13,6 +13,9 @@
         <a href="/createPosts">Create New Post</a>
         <a href="/logout">Logout</a>
         <h1>{{ displayName }}'s Blog</h1>
+        {% if error %}
+        <h2 style="color: red;">Error: {{error}}</h2>
+        {% endif %}
         {% for blog in blogs %}
         <hr>
         <a href="/post/{{blog[0]}}"><h2>{{ blog[3] }}</h2></a>

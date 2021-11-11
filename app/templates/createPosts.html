@@ -15,6 +15,9 @@
       <h1>
         Create Blog Post
       </h1>
+      {% if error %}
+      <h2 style="color: red;">Error: {{error}}</h2>
+      {% endif %}
       <form action="/createPosts" method="POST">
         Title:
         <br>

@@ -11,7 +11,9 @@
       Welcome to the signup page!
     </h1>
 
-
+    {% if error %}
+    <h2 style="color: red;">Error: {{error}}</h2>
+    {% endif %}
     <h3>
       Create your account below!
     </h3>

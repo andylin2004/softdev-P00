@@ -133,3 +133,4 @@ andyL -- 2021-11-10 20:53
 -added proper error message to all sites (just in case one site screws itself over)
 -shaved off assets and code we don't need
 -made navigation bar more consistent
+-added journal square branding

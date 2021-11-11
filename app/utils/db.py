@@ -62,7 +62,7 @@ def searchPosts(searchQuery, option):
             data = c.fetchall()
         else:
             return Response(False, None, "Not found as an option")
-        return Response(True, data, "") # TODO: Maybe pass a dictionary instead?
+        return Response(True, data, "")
     except Exception as err:
         return Response(False, None, err)
 
@@ -81,7 +81,7 @@ def getAllBlogPostsByUser(userID):
     try:
         c.execute("SELECT * FROM blogs WHERE author IS ? ORDER by date DESC", (userID,))
         data = c.fetchall()
-        return Response(True, data, "") # TODO: Maybe pass a dictionary instead?
+        return Response(True, data, "") 
     except Exception as err:
         return Response(False, None, err)
 
@@ -99,7 +99,7 @@ def loadHomePage():
     try:
         c.execute("SELECT * FROM blogs ORDER BY date DESC")
         data = c.fetchall()
-        return Response(True, data, "") # TODO: Maybe pass a dictionary instead?
+        return Response(True, data, "") 
     except Exception as err:
         return Response(False, None, err)
 
@@ -134,7 +134,7 @@ def loadEdit(id):
     try:
         c.execute("SELECT * FROM blogs WHERE id is ?", (id))
         data = c.fetchone()
-        return Response(True, data, "") # TODO: Maybe pass a dictionary instead?
+        return Response(True, data, "")
     except Exception as err:
         return Response(False, None, err)
 

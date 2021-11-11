@@ -147,12 +147,12 @@ def loadSearchResult():
     elif request.method == "POST":
         query = request.values['query']
         searchType = request.values['options']
-        if (searchType == "author"):
+        if (searchType == "author"): #user search uses a different algo because we need to load users, where people can then click on a profile to look at it
             searchResponse = searchUsers(query)
 
             if searchResponse.success:
                 result = searchResponse.payload
-                return render_template('search.html', query = query, users = result)
+                return render_template('search.html', query = query, users = result) #loads link to profiles
             else:
                 return render_template('search.html')
         else:
@@ -160,7 +160,7 @@ def loadSearchResult():
             
             if searchResponse.success:
                 result = searchResponse.payload
-                return render_template('search.html', query = query, blogs = result)
+                return render_template('search.html', query = query, blogs = result) # loads link to blog post
             else:
                 return render_template('search.html')
 

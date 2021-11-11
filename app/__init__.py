@@ -1,7 +1,6 @@
 from flask import Flask             #facilitate flask webserving
 from flask import render_template   #facilitate jinja templating
 from flask import request           #facilitate form submission
-from flask import session           #facilitate user sessions
 from flask import redirect
 from os import urandom
 

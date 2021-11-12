@@ -171,7 +171,8 @@ def viewPost(id):
     postDataResponse = getPostByID(id)
     if (postDataResponse.success):
         data = postDataResponse.data
-        return render_template('post.html', found = True, author = data["author"], title = data["title"], date = data["date"], content = data["content"], edit = data["edit"])
+        displayName = getUserByUsername(data["author"]).data["displayName"]
+        return render_template('post.html', found = True, displayName = displayName, author = data["author"], title = data["title"], date = data["date"], content = data["content"], edit = data["edit"])
     else:
         return render_template('post.html', found = False, )
 

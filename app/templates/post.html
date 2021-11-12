@@ -3,9 +3,9 @@
 <html>
     <head>
         {% if found %}
-          <title>{{title}}</title>
+          <title>{{title}} by {{ author }} - Journal Square</title>
         {% else %}
-          <title>Not found</title>
+          <title>Not found - Journal Square</title>
         {% endif %}
         <link href ="../static/css/styles.css" rel ="stylesheet" type ="text/css">
     </head>
@@ -17,7 +17,7 @@
       <a href="/logout">Logout</a>
       {% if found %}
       <h1>
-        {{title}} by {{ author }} - Journal Square
+        {{title}}
       </h1>
       <p>By {{author}}</p>
       <small>

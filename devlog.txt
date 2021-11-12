@@ -186,3 +186,4 @@ raymondY -- 2021-11-11 22:27
 
 shadmanR -- 2021-11-11 22:27
 -add more comments
+-changed variable names to ones that are more readable

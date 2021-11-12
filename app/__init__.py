@@ -64,16 +64,16 @@ def register():
         if registerResponse.success:
             return redirect("/login") #After registering, brings you to login
         else:
-            return render_template('register.html') 
+            return render_template('register.html', error="Username taken") 
 
 @app.route("/editBlog/<string:id>", methods = ['GET', 'POST'])
 def editBlog(id):
     '''If this is a get request (press the edit blog link for a blog post), then will return a page where you can change blog post contents. If this is a post request (user presses button to update a blog post), then edits will be applied to the blog post.'''
-    
+
     auth.currentUser()
     if request.method == "GET":
         loadEditResponse = loadEdit(id) #finds the post id and fetches the corresponding blog list.
-        
+
         if loadEditResponse.success:
             blog = loadEditResponse.data
             return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4]) #renders each blog with specific blog elements
@@ -86,9 +86,9 @@ def editBlog(id):
             userID = dict(currentUserResponse.data)["username"]
             title = request.values['title']
             content = request.values['contents']
-            
+
             editBlogPostResponse = editBlogPost(id, title, content, userID) #calls database function to update post
-            
+
             if editBlogPostResponse.success:
                 return redirect("/myBlog")
             else:
@@ -118,7 +118,7 @@ def loadBlogByUser(username):
     checkForSession()
     if request.method == 'GET':
         posts = getAllBlogPostsByUser(username).data
-        displayName = getUserByUsername(username).data['displayName']
+        displayName = dict(getUserByUsername(username).data)['displayName']
         return render_template("blogList.html", displayName = displayName, blogs = posts)
 
 @app.route("/myBlog")
@@ -126,7 +126,7 @@ def myBlog():
     '''Loads in all blog posts you have made.'''
     checkForSession()
     currentUserResponse = auth.currentUser()
-    
+
     if currentUserResponse.success:
         userID = dict(currentUserResponse.data)["username"]
         pullUserDataResponse = getAllBlogPostsByUser(userID)
@@ -157,7 +157,7 @@ def loadSearchResult():
                 return render_template('search.html')
         else:
             searchResponse = searchPosts(query, searchType)
-            
+
             if searchResponse.success:
                 result = searchResponse.data
                 return render_template('search.html', query = query, blogs = result) # loads link to blog post
@@ -191,7 +191,7 @@ def createPost():
             userID = dict(currentUserResponse.data)["username"] #Finds the userID from database
             
             createBlogPostResponse = createBlogPost(title, contents, userID) #Appends values into database.
-            
+
             if createBlogPostResponse.success:
                 return redirect("/myBlog")
             else:

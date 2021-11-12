@@ -183,6 +183,7 @@ raymondY -- 2021-11-11 22:27
 -error for search options to prevent SQL injections
 -modified database functions to take in the option parameter.
 -added the css link to post.html
+-error message for registering with duplicate username.
 
 shadmanR -- 2021-11-11 22:27
 -add more comments

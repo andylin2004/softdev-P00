@@ -134,3 +134,9 @@ andyL -- 2021-11-10 20:53
 -shaved off assets and code we don't need
 -made navigation bar more consistent
 -added journal square branding
+
+raymondY -- 2021-11-11 22:27
+-adding options for searching
+-error for search options to prevent SQL injections
+-modified database functions to take in the option parameter.
+-added the css link to post.html

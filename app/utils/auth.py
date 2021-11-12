@@ -7,12 +7,17 @@ from utils.response import Response
 
 class AuthService:
 
-    activeUsers = {}
+    activeUsers = {} # Used to map sessionIDs to usernames
 
     def __init__(self):
-        initializeUsersTable()
+        '''Runs when an object is initialized'''
+
+        initializeUsersTable() # Create users table if it doesn't exist
 
     def currentUser(self):
+        '''Gets the data on the user that is currently signed in. 
+        If no one is signed in, the function returns None.'''
+
         try:
             if "sessionID" in session:
                 sessionID = session.get("sessionID")
@@ -21,7 +26,7 @@ class AuthService:
                 userDataResponse = getUserByUsername(username)
 
                 if (userDataResponse.success):
-                    userData = userDataResponse.payload
+                    userData = userDataResponse.data
                     return Response(True, userData, "")
                 else:
                     Response(True, None, "")
@@ -30,31 +35,37 @@ class AuthService:
             return Response(False, None, err)
 
     def login(self, username, password):
+        '''Logs a user in and gives them a session id that is stored on client
+        and server (in activeUsers)'''
+
         try:
             userDataResponse = getUserByUsername(username)
 
             if (userDataResponse.success):
-                userData = userDataResponse.payload
+                userData = userDataResponse.data
                 if userData and username == userData["username"]:
                     if check_password_hash(userData["password"], password):
                         sessionID = urandom(32)
                         session["sessionID"] = sessionID
                         self.activeUsers[sessionID] = username
 
-                        return Response(True, True, "")
+                        return Response(True, None, "")
 
-            return Response(False, False, "")
+            return Response(False, None, "")
         except Exception as err:
             return Response(False, None, err)
 
     def register(self, username, displayName, password):
+        '''Registers a user and adds there information to the database'''
+
         try:
-            hashedPw = generate_password_hash(password)
+            hashedPw = generate_password_hash(password) # Create a hash from the password
             
-            addUserResponse = addUser(username, displayName, hashedPw)
+            #Store the hash, not original password
+            addUserResponse = addUser(username, displayName, hashedPw) # Store the user in the database
 
             if addUserResponse.success:
-                return Response(True, True, "")
+                return Response(True, None, "")
             else:
                 return Response(False, None, addUserResponse.errorMessage)
 
@@ -62,14 +73,16 @@ class AuthService:
             return Response(False, None, err)
 
     def logout(self):
-        try:
-            if session.get("sessionID"):
-                if session.get("sessionID") in self.activeUsers:
-                    self.activeUsers.pop(session.get("sessionID"))
-                    
-                session.pop("sessionID")
+        '''Logs the user out'''
 
-            return Response(True, True, "")
+        try:
+            if session.get("sessionID"): # Check is there is a sessionID in request session object
+                if session.get("sessionID") in self.activeUsers: # Check is there is a sessionID in server's activeUsers dictionary
+                    self.activeUsers.pop(session.get("sessionID")) # Remove the sessionID on the server
+                    
+                session.pop("sessionID") # Remove the sessionID on the client
+
+            return Response(True, None, "")
             
         except Exception as err:
             return Response(False, None, err)

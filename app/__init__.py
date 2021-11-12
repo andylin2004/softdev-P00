@@ -4,11 +4,11 @@ from flask import request           #facilitate form submission
 from flask import redirect
 from os import urandom
 
-from utils.auth import AuthService
+from utils.auth import AuthService #facilitate auth
 from utils.db import *
 app = Flask(__name__)
 
-auth = AuthService()
+auth = AuthService() # Create an instance of the auth handler
 
 def checkForSession():
     if auth.currentUser().success == False:
@@ -20,12 +20,12 @@ def disp_loginpage():
     currentUserResponse = auth.currentUser()
 
     if currentUserResponse.success:
-        currentUser = currentUserResponse.payload
+        currentUser = currentUserResponse.data
 
         if currentUser: #Checks if user is logged in
             loadHomePageResponse = loadHomePage()
             if loadHomePageResponse.success:
-                return render_template('homePage.html', blogs=loadHomePageResponse.payload)
+                return render_template('homePage.html', blogs=loadHomePageResponse.data)
             else:
                 return render_template('homePage.html', error = loadHomePageResponse.errorMessage)
 
@@ -75,15 +75,15 @@ def editBlog(id):
         loadEditResponse = loadEdit(id) #finds the post id and fetches the corresponding blog list.
         
         if loadEditResponse.success:
-            blog = loadEditResponse.payload
+            blog = loadEditResponse.data
             return render_template('editBlog.html', id = id, postTitle = blog[3], postContent = blog[4]) #renders each blog with specific blog elements
         else:
             return render_template('editBlog.html', id = id, error = loadEditResponse.errorMessage)
     elif request.method == "POST":
         currentUserResponse = auth.currentUser()
 
-        if currentUserResponse.payload:
-            userID = dict(currentUserResponse.payload)["username"]
+        if currentUserResponse.data:
+            userID = dict(currentUserResponse.data)["username"]
             title = request.values['title']
             content = request.values['contents']
             
@@ -103,8 +103,8 @@ def deleteBlog(id):
     if request.method == "GET":
         currentUserResponse = auth.currentUser()
 
-        if currentUserResponse.payload:
-            userID = dict(currentUserResponse.payload)["username"]
+        if currentUserResponse.data:
+            userID = dict(currentUserResponse.data)["username"]
             deleteBlogPostResponse = deleteBlogPost(id, userID)
 
             if deleteBlogPostResponse.success: #finds post id in database and deletes it.
@@ -117,8 +117,8 @@ def loadBlogByUser(username):
     '''Returns all blog post by a user.'''
     checkForSession()
     if request.method == 'GET':
-        posts = getAllBlogPostsByUser(username).payload
-        displayName = getUserByUsername(username).payload['displayName']
+        posts = getAllBlogPostsByUser(username).data
+        displayName = getUserByUsername(username).data['displayName']
         return render_template("blogList.html", displayName = displayName, blogs = posts)
 
 @app.route("/myBlog")
@@ -128,11 +128,11 @@ def myBlog():
     currentUserResponse = auth.currentUser()
     
     if currentUserResponse.success:
-        userID = dict(currentUserResponse.payload)["username"]
+        userID = dict(currentUserResponse.data)["username"]
         pullUserDataResponse = getAllBlogPostsByUser(userID)
 
         if pullUserDataResponse.success:
-            return render_template('myBlog.html', blogs=pullUserDataResponse.payload) #finds userID and loads blog dictionary with userID
+            return render_template('myBlog.html', blogs=pullUserDataResponse.data) #finds userID and loads blog dictionary with userID
         else:
             return render_template('myBlog.html', error = pullUserDataResponse.errorMessage)
     else:
@@ -151,7 +151,7 @@ def loadSearchResult():
             searchResponse = searchUsers(query)
 
             if searchResponse.success:
-                result = searchResponse.payload
+                result = searchResponse.data
                 return render_template('search.html', query = query, users = result) #loads link to profiles
             else:
                 return render_template('search.html')
@@ -159,7 +159,7 @@ def loadSearchResult():
             searchResponse = searchPosts(query, searchType)
             
             if searchResponse.success:
-                result = searchResponse.payload
+                result = searchResponse.data
                 return render_template('search.html', query = query, blogs = result) # loads link to blog post
             else:
                 return render_template('search.html')
@@ -170,7 +170,7 @@ def viewPost(id):
     checkForSession()
     postDataResponse = getPostByID(id)
     if (postDataResponse.success):
-        data = postDataResponse.payload
+        data = postDataResponse.data
         return render_template('post.html', found = True, author = data["author"], title = data["title"], date = data["date"], content = data["content"], edit = data["edit"])
     else:
         return render_template('post.html', found = False, )
@@ -188,7 +188,7 @@ def createPost():
         currentUserResponse = auth.currentUser()
 
         if currentUserResponse.success:
-            userID = dict(currentUserResponse.payload)["username"] #Finds the userID from database
+            userID = dict(currentUserResponse.data)["username"] #Finds the userID from database
             
             createBlogPostResponse = createBlogPost(title, contents, userID) #Appends values into database.
             

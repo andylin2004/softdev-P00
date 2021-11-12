@@ -1,12 +1,19 @@
 BLOGGING WEBSITE DEVLOG of TEAM: MATES
 -----------------------------------
-raymondY -- 2021-10-27 10:47pm
+raymondY -- 2021-10-27 22:47
 -created devlog and added to repo
 -finalized design doc
 -added design.pdf to repo
 
-shadmanR -- 2021-10-27 10:47pm
+shadmanR -- 2021-10-27 22:27
+
 -created routes specification table with required parameters and responses based on request methods.
+
+shadmanR -- 2021-10-28 20:13
+
+-created basic initial files and spun up a flask app. Laid the basic foundation of the auth service
+class, which we plan to use to handle auth related functions.
+-wrote the auth register method that inserts the user to the database
 
 andyL -- 2021-10-28 21:56
 
@@ -24,7 +31,7 @@ I added the designwiki0 and designwiki1 files (previous permutations)
 
 shadmanR -- 2021-10-29 09:05
 
-I started working on an AuthService class that could be used for getting the registering, loging in,
+-I continued working on an AuthService class that could be used for getting the registering, loging in,
 getting the current user, managing sessions, etc.
 
 andyL -- 2021-10-31 16:52
@@ -32,15 +39,20 @@ andyL -- 2021-10-31 16:52
 I updated README with the install instructions and made a superior name for the blog. Also
 made a requirement.txt and ensured that app.py was functional (college apps are a pain).
 
+shadmanR -- 2021-10-31 19:05
+
+-Started creating a util package to organize code better. Auth and database methods and classes are in the package.
+-Started working on a package of database functions, such as a database tables initialization function.
+
 andyL -- 2021-11-01 09:01
 
 I fixed the dependencies in requirements.txt (as the dependencies were excessive). I also
 added a few more funcs dedicated for fetching blog post info.
 
-shadmanR -- 2021-11-02 19:51
+shadmanR -- 2021-11-02 09:04
 
--worked more on refactoring the code to use packages for database and authentication.
--wrote basic database functions related to initialization and auth
+-continued to refactor the code to use packages for database and authentication.
+-wrote more basic database functions related to initialization and auth
 -wrote login and current user functions
 
 andyL -- 2021-11-02 22:39
@@ -65,10 +77,11 @@ raymondY -- 2021-11-03 17:52
 -basic css (centering only rn)
 -links on home page (for testing, not sure if the current layout is what we want.)
 
-shadmanR -- 2021-11-02 09:15
+shadmanR -- 2021-11-02 19:15
 
-Improved auth by using sessionIDs and hashing and salting passwords
-Refactored the code to use a Response class. Added error handling for the database and auth functions.
+-Improved auth by using sessionIDs and hashing and salting passwords
+-Refactored the code to use a Response class. Added error handling for the database and auth functions.
+-Resolved merge conflicts between our code
 
 andyL -- 2021-11-04 00:32
 
@@ -79,27 +92,42 @@ andyL -- 2021-11-04 09:23
 I worked on fixing the create blog post page (which is now done). Also started to work on the home page blog post feed (now renders out title and author name).
 
 raymondY -- 2021-11-04 09:25
+
 -added comments to functions
 
 shadmanR -- 2021-11-04 09:25
+
 -started working on querying database for posts and dynamically rendering them.
+-refactored code to use the response to add more structure to what functions return.
+-started laying foundations for error handling
 
 raymondY -- 2021-11-04 18:08
+
 -bug fixing
 -attempt at rendering posts the users have made through myBlog.html
 
 raymondY -- 2021-11-04 19:16
+
 -rendered posts in myBlog.html
 -added function to pull from database for editing
 -loaded values onto template for user to edit.
 
-shadmanR -- 2021-11-04 9:25 am
+shadmanR -- 2021-11-04 19:25
+
+-created function to get post by id from database
+-created way to view posts by querying database and rendering template
+based on data from query.
 -finished dynamically rendering posts and merged work
 
 raymondY -- 2021-11-05 17:43
 -added header for devlog
 -fixed edit function in db.py
 -updated table values before redirecting in editBlog function.
+
+shadmanR -- 2021-11-05 19:25
+
+-renamed variables to make code more readable.
+-refactored more code in auth and db to return Response objects
 
 andyL -- 2021-11-08 09:20
 
@@ -108,19 +136,26 @@ andyL -- 2021-11-08 09:20
 -started to migrate code to the new try catch architecture
 
 raymondY -- 2021-11-09 09:06
+
 -fixed edit so it doesn't show when not Edited
 -some comments
+
+shadmanR -- 2021-11-09 09:12
+
+-resolved merge conflicts
+-added some comments
 
 andyL -- 2021-11-09 09:26
 
 -changed add blog post and edit blog post sites with a bigger and resizable text box.
 -added docstrings to __init__.py functions
 
-andyL -- 2021-11-09 09:26
+shadmanR -- 2021-11-09 09:26
 
 -refactored to use try catch for error handling
 -started refactoring code for better readability
 -left comments with how to improve code
+-updated and fixed launch codes in the README
 
 andyL -- 2021-11-10 09:26
 
@@ -135,9 +170,21 @@ andyL -- 2021-11-10 20:53
 -made navigation bar more consistent
 -added journal square branding
 
+shadmanR -- 2021-11-10 16:27
+
+-fixed auth logout issue
+-merged work
+-made dynamic post links on homepage clickable
+-resolve merge conflicts
+-refactored more code to use try and catch statements
+
 raymondY -- 2021-11-11 22:27
 -adding options for searching
 -error for search options to prevent SQL injections
 -modified database functions to take in the option parameter.
 -added the css link to post.html
 -error message for registering with duplicate username.
+
+shadmanR -- 2021-11-11 22:27
+-add more comments
+-changed variable names to ones that are more readable

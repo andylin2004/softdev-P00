@@ -4,11 +4,11 @@ from flask import request           #facilitate form submission
 from flask import redirect
 from os import urandom
 
-from utils.auth import AuthService
+from utils.auth import AuthService #facilitate auth
 from utils.db import *
 app = Flask(__name__)
 
-auth = AuthService()
+auth = AuthService() # Create an instance of the auth handler
 
 def checkForSession():
     if auth.currentUser().success == False:

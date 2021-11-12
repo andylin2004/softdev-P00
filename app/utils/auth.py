@@ -21,7 +21,7 @@ class AuthService:
                 userDataResponse = getUserByUsername(username)
 
                 if (userDataResponse.success):
-                    userData = userDataResponse.payload
+                    userData = userDataResponse.data
                     return Response(True, userData, "")
                 else:
                     Response(True, None, "")
@@ -34,7 +34,7 @@ class AuthService:
             userDataResponse = getUserByUsername(username)
 
             if (userDataResponse.success):
-                userData = userDataResponse.payload
+                userData = userDataResponse.data
                 if userData and username == userData["username"]:
                     if check_password_hash(userData["password"], password):
                         sessionID = urandom(32)

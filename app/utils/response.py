@@ -1,9 +1,9 @@
 class Response:
     success = False
-    payload = None
+    data = None
     errorMessage = ""
 
     def __init__(self, success, payload, errorMessage):
         self.success = success
-        self.payload = payload
+        self.data = payload
         self.errorMessage = errorMessage

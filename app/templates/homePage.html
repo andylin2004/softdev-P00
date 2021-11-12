@@ -7,13 +7,12 @@
     </head>
 
     <body>
-      <a href="/">Home</a>
       <a href="/search">Search</a>
       <a href="/myBlog">My Blog</a>
       <a href="/createPosts">Create New Post</a>
       <a href="/logout">Logout</a>
         <h1>
-          Home Page
+          Journal Home
         </h1>
         {% if error %}
         <h2 style="color: red;">Error: {{error}}</h2>
@@ -31,9 +30,12 @@
                 <input type = "submit" name = "search" value = "Search">
             </form>
         </h3>
+        <h2>Most Recent Posts</h2>
         {% for blog in blogs %}
+        <hr>
         <a href="/post/{{blog[0]}}"><h2>{{ blog[3] }}</h2></a>
         by {{ blog[1] }}
+        <br>
         <br>
         <br>
         {% endfor %}
